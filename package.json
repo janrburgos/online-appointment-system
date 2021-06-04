@@ -1,0 +1,30 @@
+{
+  "name": "online-appointment-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index",
+    "applicant": "cd applicant-frontend && npm start",
+    "dev": "concurrently -n \"server,applicant\" -c \"blue,green\" \"nodemon index\" \"npm run applicant\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/janrburgos/online-appointment-system.git"
+  },
+  "keywords": [],
+  "author": "Jan Rodson Burgos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/janrburgos/online-appointment-system/issues"
+  },
+  "homepage": "https://github.com/janrburgos/online-appointment-system#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "concurrently": "^6.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.12",
+    "morgan": "^1.10.0"
+  }
+}
