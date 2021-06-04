@@ -8,12 +8,8 @@ const PORT = process.env.PORT || 8000;
 
 app.use(morgan("tiny"));
 
-app.get("", (req, res) => {
-  const data = {
-    username: "name",
-    age: 0,
-  };
-  res.send(data);
+app.get("/", (req, res) => {
+  res.send(`port ${PORT}`);
 });
 
 app.listen(PORT, console.log(`server is listening to port ${PORT}`));
