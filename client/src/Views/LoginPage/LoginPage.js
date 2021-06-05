@@ -1,9 +1,9 @@
 import "./LoginPage.css";
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 const LoginPage = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
 
@@ -16,13 +16,13 @@ const LoginPage = () => {
       <div className="login-box">
         <strong>sign in to your account</strong>
         <input
-          type="text"
-          name="username-login"
-          id="username-login"
-          placeholder="Username"
-          value={username}
+          type="email"
+          name="email-login"
+          id="email-login"
+          placeholder="Email Address"
+          value={email}
           onChange={(e) => {
-            setUsername(e.target.value);
+            setEmail(e.target.value);
           }}
         />
         <input
@@ -39,6 +39,9 @@ const LoginPage = () => {
           Log In
         </button>
       </div>
+      <Link to="/register">
+        <p>register</p>
+      </Link>
     </div>
   );
 };

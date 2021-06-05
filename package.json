@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index",
-    "applicant": "cd applicant-frontend && npm start",
-    "dev": "concurrently -n \"server,applicant\" -c \"blue,green\" \"nodemon index\" \"npm run applicant\""
+    "client": "cd client && npm start",
+    "dev": "concurrently -n \"server,client\" -c \"blue,green\" \"nodemon index\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "concurrently": "^6.2.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.12.12",
     "morgan": "^1.10.0"
