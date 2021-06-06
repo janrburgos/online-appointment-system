@@ -8,7 +8,7 @@ const LoginPage = () => {
   const history = useHistory();
 
   const handleClick = () => {
-    history.push("/home");
+    history.push("/main");
   };
 
   return (

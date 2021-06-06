@@ -1,0 +1,20 @@
+.MainPage {
+  position: relative;
+}
+
+header {
+  background-color: aqua;
+}
+
+.applicant-main {
+  background-color: yellow;
+}
+
+.applicant-nav {
+  background-color: greenyellow;
+}
+
+.applicant-nav ul {
+  display: flex;
+  justify-content: space-evenly;
+}

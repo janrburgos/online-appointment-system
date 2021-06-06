@@ -1,6 +1,7 @@
 import "./App.css";
-import LoginPage from "./Views/LoginPage/LoginPage";
-import RegistrationPage from "./Views/RegistrationPage/RegistrationPage";
+import LoginPage from "./Pages/LoginPage/LoginPage";
+import RegistrationPage from "./Pages/RegistrationPage/RegistrationPage";
+import MainPage from "./Pages/MainPage/MainPage";
 import Counter from "./Components/Counter/Counter";
 
 import { Route, Switch } from "react-router-dom";
@@ -11,6 +12,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={LoginPage} />
         <Route path="/register" component={RegistrationPage} />
+        <Route path="/main" component={MainPage} />
         <Route path="/counter" component={Counter} />
       </Switch>
     </div>

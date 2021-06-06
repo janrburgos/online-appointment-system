@@ -7,6 +7,7 @@ const RegistrationPage = () => {
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [gender, setGender] = useState("male");
   const [day, setDay] = useState("01");
   const [month, setMonth] = useState("01");
   const [year, setYear] = useState(new Date().getFullYear().toString());
@@ -73,6 +74,7 @@ const RegistrationPage = () => {
       firstName,
       middleName,
       lastName,
+      gender,
       birthDate: `${year}-${month}-${day}`,
       civilStatus,
       citizenship,
@@ -152,6 +154,18 @@ const RegistrationPage = () => {
             }}
             value={lastName}
           />
+        </div>
+        <div className="form-row">
+          <label htmlFor="reg-gender">gender</label>
+          <select
+            name="reg-gender"
+            id="reg-gender"
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+          >
+            <option value="male">male</option>
+            <option value="female">female</option>
+          </select>
         </div>
         <div className="form-row">
           <label htmlFor="reg-birth-date">birth date</label>
