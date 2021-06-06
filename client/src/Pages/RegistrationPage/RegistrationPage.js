@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const RegistrationPage = () => {
   const [email, setEmail] = useState("");
@@ -82,8 +83,9 @@ const RegistrationPage = () => {
       currentAddress,
       permanentAddress,
     };
-
-    console.table(registerBody);
+    axios
+      .post("http://localhost:1337/api/applicants", registerBody)
+      .then(alert(`added ${firstName} in the database`));
   };
 
   return (
