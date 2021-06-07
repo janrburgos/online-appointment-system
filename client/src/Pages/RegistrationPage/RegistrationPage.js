@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 const RegistrationPage = () => {
@@ -17,7 +18,9 @@ const RegistrationPage = () => {
   const [placeOfBirth, setPlaceOfBirth] = useState("");
   const [currentAddress, setCurrentAddress] = useState("");
   const [permanentAddress, setPermanentAddress] = useState("");
+  const [registrationError, setRegistrationError] = useState("");
 
+  const history = useHistory();
   let currentYear = new Date().getFullYear();
   let yearList = [];
   for (let i = 0; i < currentYear - 1920; i++) {
@@ -68,6 +71,7 @@ const RegistrationPage = () => {
   ];
 
   let registerButtonClickHandler = () => {
+    setRegistrationError("");
     let registerBody = {
       email,
       password,
@@ -83,9 +87,17 @@ const RegistrationPage = () => {
       currentAddress,
       permanentAddress,
     };
-    axios
-      .post("http://localhost:1337/api/applicants", registerBody)
-      .then(alert(`added ${firstName} in the database`));
+    axios(`http://localhost:1337/api/applicants/${email}`).then((res) => {
+      if (res.data[0] !== undefined) {
+        return setRegistrationError(
+          "the email address provided is already registered"
+        );
+      }
+      axios
+        .post("http://localhost:1337/api/applicants", registerBody)
+        .then(alert(`added ${firstName} in the database`));
+      history.push("/");
+    });
   };
 
   return (
@@ -285,6 +297,7 @@ const RegistrationPage = () => {
           </button>
         </div>
       </div>
+      <div className="registration-error">{registrationError}</div>
     </div>
   );
 };
