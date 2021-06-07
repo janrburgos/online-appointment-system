@@ -1,9 +1,6 @@
 import { createStore, combineReducers } from "redux";
-import counterReducer from "./Reducers/counterReducer";
-import numChangeReducer from "./Reducers/numChangeReducer";
+import applicantInfoReducer from "./Reducers/applicantInfoReducer";
 
-const store = createStore(
-  combineReducers({ counterReducer, numChangeReducer })
-);
+const store = createStore(combineReducers({ applicantInfoReducer }));
 
 export default store;

@@ -4,12 +4,16 @@ import Application from "../../Components/Application/Application";
 import Transaction from "../../Components/Transaction/Transaction";
 
 import { Route, Link, Switch, useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 const MainPage = () => {
   const history = useHistory();
   const appointmentButtonClickHandler = () => {
     history.push("/main/transaction");
   };
+  const applicantInfo = useSelector(
+    (state) => state.applicantInfoReducer.applicantInfo
+  );
 
   return (
     <div className="MainPage">
@@ -21,8 +25,10 @@ const MainPage = () => {
           <div>
             <img src="" alt="" />
             <div>
-              <div className="applicant-name">juan dela cruz</div>
-              <div className="applicant-email">juandelacruz@gmail.com</div>
+              <div className="applicant-name">
+                {`${applicantInfo.firstName} ${applicantInfo.middleName} ${applicantInfo.lastName}`}
+              </div>
+              <div className="applicant-email">{applicantInfo.email}</div>
               <div className="applicant-number">12345</div>
             </div>
           </div>

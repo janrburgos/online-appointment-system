@@ -2,9 +2,15 @@ const express = require("express");
 const router = express.Router();
 const Applicant = require("../Models/Applicant");
 
-router.get("/", (req, res) => {
-  Applicant.find({}).then((data) => {
-    res.send(data);
+// router.get("/", (req, res) => {
+//   Applicant.find({}).then((data) => {
+//     res.send(data);
+//   });
+// });
+
+router.get("/:email", (req, res) => {
+  Applicant.find({ email: req.params.email }).then((applicant) => {
+    res.send(applicant);
   });
 });
 
@@ -24,10 +30,10 @@ router.put("/:_id", (req, res) => {
   });
 });
 
-router.delete("/:_id", (req, res) => {
-  Applicant.findByIdAndDelete(req.params._id).then((applicant) => {
-    res.send(applicant);
-  });
-});
+// router.delete("/:_id", (req, res) => {
+//   Applicant.findByIdAndDelete(req.params._id).then((applicant) => {
+//     res.send(applicant);
+//   });
+// });
 
 module.exports = router;

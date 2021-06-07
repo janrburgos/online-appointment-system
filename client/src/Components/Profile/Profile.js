@@ -1,4 +1,9 @@
+import { useSelector, useDispatch } from "react-redux";
+
 const Profile = () => {
+  const applicantInfo = useSelector(
+    (state) => state.applicantInfoReducer.applicantInfo
+  );
   return (
     <div className="Profile">
       <div className="personal-info">
@@ -7,23 +12,23 @@ const Profile = () => {
           <tbody>
             <tr>
               <th>name</th>
-              <td>juan dela cruz</td>
+              <td>{`${applicantInfo.firstName} ${applicantInfo.middleName} ${applicantInfo.lastName}`}</td>
             </tr>
             <tr>
               <th>gender</th>
-              <td>male</td>
+              <td>{applicantInfo.gender}</td>
             </tr>
             <tr>
               <th>birth date</th>
-              <td>01/01/1993</td>
+              <td>{applicantInfo.birthDate}</td>
             </tr>
             <tr>
               <th>civil status</th>
-              <td>single</td>
+              <td>{applicantInfo.civilStatus}</td>
             </tr>
             <tr>
               <th>citizenship</th>
-              <td>filipino</td>
+              <td>{applicantInfo.citizenship}</td>
             </tr>
           </tbody>
         </table>
@@ -33,15 +38,15 @@ const Profile = () => {
         <table>
           <tr>
             <th>place of birth</th>
-            <td>manila</td>
+            <td>{applicantInfo.placeOfBirth}</td>
           </tr>
           <tr>
             <th>current address</th>
-            <td>manila</td>
+            <td>{applicantInfo.currentAddress}</td>
           </tr>
           <tr>
             <th>permanent address</th>
-            <td>manila</td>
+            <td>{applicantInfo.permanentAddress}</td>
           </tr>
         </table>
       </div>
@@ -50,11 +55,11 @@ const Profile = () => {
         <table>
           <tr>
             <th>email address</th>
-            <td>email@email.com</td>
+            <td>{applicantInfo.email}</td>
           </tr>
           <tr>
             <th>contact number</th>
-            <td>091234567890</td>
+            <td>{`0${applicantInfo.mobileNumber}`}</td>
           </tr>
         </table>
       </div>
