@@ -1,8 +1,8 @@
 import ApplicationItem from "../ApplicationItem/ApplicationItem";
 
-const Application = () => {
+const ApplicationTab = () => {
   return (
-    <div className="Application">
+    <div className="ApplicationTab">
       <p>application history</p>
       <div className="application-history">
         <ApplicationItem />
@@ -12,4 +12,4 @@ const Application = () => {
   );
 };
 
-export default Application;
+export default ApplicationTab;

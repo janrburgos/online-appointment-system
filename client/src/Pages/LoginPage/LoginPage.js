@@ -1,5 +1,5 @@
 import "./LoginPage.css";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import axios from "axios";

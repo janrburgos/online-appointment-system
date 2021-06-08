@@ -15,6 +15,7 @@ const ApplicantSchema = new Schema({
   placeOfBirth: { type: String, required: true },
   currentAddress: { type: String, required: true },
   permanentAddress: { type: String, required: true },
+  avatar: { type: String, default: "default-avatar.png" },
 });
 
 module.exports = mongoose.model("Applicant", ApplicantSchema);

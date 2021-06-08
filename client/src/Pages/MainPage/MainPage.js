@@ -1,14 +1,14 @@
 import "./MainPage.css";
-import Profile from "../../Components/Profile/Profile";
-import Application from "../../Components/Application/Application";
+import ProfileTab from "../../Components/ProfileTab/ProfileTab";
+import ApplicationTab from "../../Components/ApplicationTab/ApplicationTab";
 import Transaction from "../../Components/Transaction/Transaction";
 
 import { Route, Link, Switch, useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const MainPage = () => {
   const history = useHistory();
-  const appointmentButtonClickHandler = () => {
+  const applicationButtonClickHandler = () => {
     history.push("/main/transaction");
   };
   const applicantInfo = useSelector(
@@ -23,7 +23,10 @@ const MainPage = () => {
       <main>
         <div className="applicant-main">
           <div>
-            <img src="" alt="" />
+            <img
+              src={`http://localhost:1337/${applicantInfo.avatar}`}
+              alt="avatar"
+            />
             <div>
               <div className="applicant-name">
                 {`${applicantInfo.firstName} ${applicantInfo.middleName} ${applicantInfo.lastName}`}
@@ -35,9 +38,9 @@ const MainPage = () => {
           <div className="button-div">
             <button
               className="appointment-button"
-              onClick={appointmentButtonClickHandler}
+              onClick={applicationButtonClickHandler}
             >
-              select appointment
+              start application
             </button>
           </div>
         </div>
@@ -53,8 +56,8 @@ const MainPage = () => {
         </nav>
         <div className="applicant-details">
           <Switch>
-            <Route path="/main/application" component={Application} />
-            <Route path="/main" component={Profile} />
+            <Route path="/main/application" component={ApplicationTab} />
+            <Route path="/main" component={ProfileTab} />
           </Switch>
         </div>
       </main>

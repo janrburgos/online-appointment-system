@@ -1,11 +1,11 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
-const Profile = () => {
+const ProfileTab = () => {
   const applicantInfo = useSelector(
     (state) => state.applicantInfoReducer.applicantInfo
   );
   return (
-    <div className="Profile">
+    <div className="ProfileTab">
       <div className="personal-info">
         <p>personal information</p>
         <table>
@@ -67,4 +67,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfileTab;
