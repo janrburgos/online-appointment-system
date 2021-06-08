@@ -36,31 +36,35 @@ const ProfileTab = () => {
       <div className="personal-address">
         <p>personal address</p>
         <table>
-          <tr>
-            <th>place of birth</th>
-            <td>{applicantInfo.placeOfBirth}</td>
-          </tr>
-          <tr>
-            <th>current address</th>
-            <td>{applicantInfo.currentAddress}</td>
-          </tr>
-          <tr>
-            <th>permanent address</th>
-            <td>{applicantInfo.permanentAddress}</td>
-          </tr>
+          <tbody>
+            <tr>
+              <th>place of birth</th>
+              <td>{applicantInfo.placeOfBirth}</td>
+            </tr>
+            <tr>
+              <th>current address</th>
+              <td>{applicantInfo.currentAddress}</td>
+            </tr>
+            <tr>
+              <th>permanent address</th>
+              <td>{applicantInfo.permanentAddress}</td>
+            </tr>
+          </tbody>
         </table>
       </div>
       <div className="contact-info">
         <p>contact information</p>
         <table>
-          <tr>
-            <th>email address</th>
-            <td>{applicantInfo.email}</td>
-          </tr>
-          <tr>
-            <th>contact number</th>
-            <td>{`0${applicantInfo.mobileNumber}`}</td>
-          </tr>
+          <tbody>
+            <tr>
+              <th>email address</th>
+              <td>{applicantInfo.email}</td>
+            </tr>
+            <tr>
+              <th>contact number</th>
+              <td>{`0${applicantInfo.mobileNumber}`}</td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>

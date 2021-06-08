@@ -7,9 +7,6 @@ const Transaction = () => {
   const [applyDocuments, setApplyDocuments] = useState([]);
   const [selectedDocument, setSelectedDocument] = useState();
   const history = useHistory();
-  const closeButtonClickHandler = () => {
-    history.push("/main");
-  };
 
   useEffect(() => {
     axios("http://localhost:1337/api/doctypes").then((res) => {
@@ -22,6 +19,19 @@ const Transaction = () => {
     setSelectedDocument(
       applyDocuments.find((document) => document.name === e.target.value)
     );
+  };
+
+  const closeButtonClickHandler = () => {
+    history.push("/main");
+  };
+
+  const proceedButtonClickHandler = () => {
+    axios.post("http://localhost:1337/api/applications", {
+      transactionDocument: selectedDocument.name,
+      amount: selectedDocument.amount,
+      transactionRequirements: selectedDocument.requirements,
+    });
+    history.push("/main/application");
   };
 
   return (
@@ -49,14 +59,11 @@ const Transaction = () => {
               {selectedDocument
                 ? selectedDocument.requirements.map((doc) => <li>{doc}</li>)
                 : null}
-              {/* <li>requirement 1</li>
-              <li>requirement 2</li>
-              <li>requirement 3</li> */}
             </ul>
           </div>
         </div>
         <div className="transaction-buttons">
-          <button>proceed</button>
+          <button onClick={proceedButtonClickHandler}>proceed</button>
           <button onClick={closeButtonClickHandler}>close</button>
         </div>
       </div>

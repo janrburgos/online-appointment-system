@@ -1,6 +1,7 @@
 import "./ApplicationItem.css";
+import moment from "moment";
 
-const ApplicationItem = () => {
+const ApplicationItem = ({ application }) => {
   return (
     <div className="ApplicationItem">
       <div className="application-card">
@@ -12,17 +13,17 @@ const ApplicationItem = () => {
             <tbody>
               <tr>
                 <td>Transaction Document:</td>
-                <td>ENGINE MANAGEMENT LEVEL</td>
+                <td>{application.transactionDocument}</td>
               </tr>
               <tr>
                 <td>Transaction Date:</td>
                 <td>
-                  <b>-</b>
+                  <b>{moment(application.transactionDate).format("lll")}</b>
                 </td>
               </tr>
               <tr>
                 <td>Transaction Status:</td>
-                <td>-</td>
+                <td>{application.transactionStatus}</td>
               </tr>
             </tbody>
           </table>
@@ -30,17 +31,17 @@ const ApplicationItem = () => {
             <tbody>
               <tr>
                 <td>Amount:</td>
-                <td>1000.00</td>
+                <td>{application.amount}.00</td>
               </tr>
               <tr>
                 <td>Payment Status:</td>
                 <td>
-                  <div className="badge badge-primary">CANCELLED</div>
+                  <div>{application.paymentStatus}</div>
                 </td>
               </tr>
               <tr>
                 <td>Appointment Date:</td>
-                <td>-</td>
+                <td>{application.appointmentDate}</td>
               </tr>
             </tbody>
           </table>

@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 const MainPage = () => {
   const history = useHistory();
-  const applicationButtonClickHandler = () => {
+  const setAppointmentButtonClickHandler = () => {
     history.push("/main/transaction");
   };
   const applicantInfo = useSelector(
@@ -24,7 +24,7 @@ const MainPage = () => {
         <div className="applicant-main">
           <div>
             <img
-              src={`http://localhost:1337/${applicantInfo.avatar}`}
+              src={`http://localhost:1337/Uploads/${applicantInfo.avatar}`}
               alt="avatar"
             />
             <div>
@@ -38,9 +38,9 @@ const MainPage = () => {
           <div className="button-div">
             <button
               className="appointment-button"
-              onClick={applicationButtonClickHandler}
+              onClick={setAppointmentButtonClickHandler}
             >
-              start application
+              set appointment
             </button>
           </div>
         </div>
