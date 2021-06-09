@@ -1,14 +1,10 @@
 import ApplicationItem from "../ApplicationItem/ApplicationItem";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useSelector } from "react-redux";
 
 const ApplicationTab = () => {
-  const [applications, setApplications] = useState([]);
-  useEffect(() => {
-    axios("http://localhost:1337/api/applications")
-      .then((res) => setApplications([...res.data]))
-      .then(console.log(applications));
-  }, []);
+  const applications = useSelector(
+    (state) => state.applicationsReducer.applications
+  );
 
   return (
     <div className="ApplicationTab">

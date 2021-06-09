@@ -2,8 +2,14 @@ const express = require("express");
 const router = express.Router();
 const Application = require("../Models/Application");
 
-router.get("/", (req, res) => {
-  Application.find({}).then((data) => {
+// router.get("/", (req, res) => {
+//   Application.find({}).then((data) => {
+//     res.send(data);
+//   });
+// });
+
+router.get("/:string", (req, res) => {
+  Application.find({ applicantId: req.params.string }).then((data) => {
     res.send(data);
   });
 });

@@ -1,5 +1,5 @@
 import "./LoginPage.css";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
@@ -11,12 +11,25 @@ const LoginPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+
   const handleClick = () => {
     setLoginError("");
+    if (email.trim() === "") {
+      emailRef.current.focus();
+      return setLoginError("enter email address");
+    }
+    if (password.trim() === "") {
+      passwordRef.current.focus();
+      return setLoginError("enter password");
+    }
     axios(`http://localhost:1337/api/applicants/${email}`).then((res) => {
       if (res.data[0] === undefined) {
+        emailRef.current.focus();
         return setLoginError("this email address is not registered");
       } else if (res.data[0].password !== password) {
+        passwordRef.current.focus();
         return setLoginError("this password is incorrect");
       } else {
         dispatch({ type: "INSERT_APPLICANT_INFO", payload: res.data[0] });
@@ -39,6 +52,10 @@ const LoginPage = () => {
           onChange={(e) => {
             setEmail(e.target.value);
           }}
+          ref={emailRef}
+          onKeyDown={(e) =>
+            e.key === "Enter" ? passwordRef.current.focus() : null
+          }
         />
         <input
           type="password"
@@ -49,6 +66,8 @@ const LoginPage = () => {
           onChange={(e) => {
             setPassword(e.target.value);
           }}
+          ref={passwordRef}
+          onKeyDown={(e) => (e.key === "Enter" ? handleClick() : null)}
         />
         <button className="login-button" onClick={handleClick}>
           Log In

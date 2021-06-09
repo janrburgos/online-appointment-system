@@ -1,4 +1,4 @@
-.Transaction {
+.SetAppointment {
   position: absolute;
   top: 0;
   left: 0;
@@ -10,7 +10,7 @@
   background-color: hsla(0, 0%, 0%, 50%);
 }
 
-.transaction-modal {
+.set-appointment-modal {
   background-color: white;
   width: min(80%, 800px);
   height: 500px;

@@ -6,7 +6,7 @@ import Counter from "./Components/Counter/Counter";
 
 import { Route, Switch } from "react-router-dom";
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <Switch>
@@ -17,6 +17,6 @@ function App() {
       </Switch>
     </div>
   );
-}
+};
 
 export default App;

@@ -1,19 +1,30 @@
 import "./MainPage.css";
 import ProfileTab from "../../Components/ProfileTab/ProfileTab";
 import ApplicationTab from "../../Components/ApplicationTab/ApplicationTab";
-import Transaction from "../../Components/Transaction/Transaction";
+import SetAppointment from "../../Components/SetAppointment/SetAppointment";
 
 import { Route, Link, Switch, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 
 const MainPage = () => {
   const history = useHistory();
-  const setAppointmentButtonClickHandler = () => {
-    history.push("/main/transaction");
-  };
+  const dispatch = useDispatch();
   const applicantInfo = useSelector(
     (state) => state.applicantInfoReducer.applicantInfo
   );
+
+  axios(`http://localhost:1337/api/doctypes`).then((res) =>
+    dispatch({ type: "INSERT_DOCTYPES", payload: res.data })
+  );
+
+  axios(`http://localhost:1337/api/applications/${applicantInfo._id}`).then(
+    (res) => dispatch({ type: "INSERT_APPLICATIONS", payload: res.data })
+  );
+
+  const setAppointmentButtonClickHandler = () => {
+    history.push("/main/set-appointment");
+  };
 
   return (
     <div className="MainPage">
@@ -61,7 +72,7 @@ const MainPage = () => {
           </Switch>
         </div>
       </main>
-      <Route path="/main/transaction" component={Transaction} />
+      <Route path="/main/set-appointment" component={SetAppointment} />
     </div>
   );
 };
