@@ -1,3 +1,16 @@
-.application-top {
-  display: flex;
+.application-detail-top,
+.application-detail-bottom {
+  display: grid;
+}
+
+.application-detail-top {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.application-detail-bottom {
+  grid-template-columns: 1fr 2fr;
+}
+
+.document-photo-container {
+  background-color: aqua;
 }

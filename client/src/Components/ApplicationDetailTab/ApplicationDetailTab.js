@@ -1,14 +1,13 @@
 import "./ApplicationDetailTab.css";
-import React, { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import moment from "moment";
 
 const ApplicationDetailTab = () => {
   const location = useLocation();
-  const application = location.state;
-  console.log(application);
+  const application = { ...location.state };
   return (
     <div className="ApplicationDetailTab">
-      <div className="application-top">
+      <div className="application-detail-top">
         <table>
           <tbody>
             <tr>
@@ -45,6 +44,29 @@ const ApplicationDetailTab = () => {
             </tr>
           </tbody>
         </table>
+      </div>
+      <div className="application-detail-bottom">
+        <div className="requirement-list">
+          <ul>
+            {application.transactionRequirements.map((reqr, index) => (
+              <Link
+                key={`link-${index}-${reqr}`}
+                to={{
+                  pathname: `/main/applications/${application._id}/${index}`,
+                  state: { ...application },
+                }}
+              >
+                <li>{reqr}</li>
+              </Link>
+            ))}
+          </ul>
+        </div>
+        <div className="document-photo-container">
+          <img
+            src={`http://localhost:1337/Uploads/no-document.png`}
+            alt="document"
+          />
+        </div>
       </div>
     </div>
   );

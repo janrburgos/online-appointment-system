@@ -7,10 +7,9 @@ const ApplicationItem = ({ application }) => {
     <div className="ApplicationItem">
       <div className="application-card">
         <div className="application-button">
-          {/* <Link to={`/main/applications/${application._id}`}> */}
           <Link
             to={{
-              pathname: `/main/applications/${application._id}`,
+              pathname: `/main/applications/${application._id}/0`,
               state: { ...application },
             }}
           >
