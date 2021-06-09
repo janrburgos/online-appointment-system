@@ -22,11 +22,17 @@ const SetAppointment = () => {
   };
 
   const proceedButtonClickHandler = () => {
+    let transactionRequirements = [
+      ...selectedDocument.requirements.map((reqr) => {
+        return { requirementName: reqr };
+      }),
+    ];
+    console.log(transactionRequirements);
     axios.post("http://localhost:1337/api/applications", {
       applicantId: applicantInfo._id,
       transactionDocument: selectedDocument.name,
       amount: selectedDocument.amount,
-      transactionRequirements: selectedDocument.requirements,
+      transactionRequirements,
     });
     history.push("/main/application");
   };

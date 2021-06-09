@@ -27,14 +27,14 @@ router.post("/", (req, res) => {
   });
 });
 
-// router.put("/:_id", (req, res) => {
-//   Applicant.findByIdAndUpdate(req.params._id, req.body, {
-//     useFindAndModify: false,
-//     new: true,
-//   }).then((applicant) => {
-//     res.send(applicant);
-//   });
-// });
+router.put("/:_id", (req, res) => {
+  Application.findByIdAndUpdate(req.params._id, req.body, {
+    useFindAndModify: false,
+    new: true,
+  }).then((application) => {
+    res.send(application);
+  });
+});
 
 // router.delete("/:_id", (req, res) => {
 //   Applicant.findByIdAndDelete(req.params._id).then((applicant) => {

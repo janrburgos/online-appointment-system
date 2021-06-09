@@ -62,7 +62,7 @@ const MainPage = () => {
             <Link to="/main">
               <li>profile</li>
             </Link>
-            <Link to="main/documents">
+            <Link to="/main/documents">
               <li>documents</li>
             </Link>
             <Link to="/main/applications">

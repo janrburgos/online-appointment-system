@@ -10,14 +10,20 @@ const Counter = () => {
       {counter}
       <button onClick={() => dispatch({ type: "INCREMENT" })}>+</button>
       <br />
-      <input
-        type="file"
-        name="avatar"
-        id="avatar"
-        accept=".jpg,.jpeg,.png,.bmp,.gif,"
-      />
-      <br />
-      <button>save image</button>
+      <form
+        action="http://localhost:1337/api/upload"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <input
+          type="file"
+          name="avatar"
+          id="avatar"
+          accept=".jpg,.jpeg,.png,.bmp"
+        />
+        <br />
+        <button>save image</button>
+      </form>
     </div>
   );
 };

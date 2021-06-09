@@ -5,7 +5,15 @@ const ApplicationSchema = new Schema({
   applicantId: { type: Schema.Types.ObjectId, ref: "Applicant" },
   transactionDocument: String,
   amount: Number,
-  transactionRequirements: [String],
+  transactionRequirements: [
+    {
+      requirementName: String,
+      requirementUrl: {
+        type: String,
+        default: "no-document.png",
+      },
+    },
+  ],
   transactionDate: { type: Date, default: Date.now() },
   transactionStatus: { type: String, default: "-" },
   paymentStatus: { type: String, default: "-" },
