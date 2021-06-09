@@ -1,6 +1,8 @@
 import "./MainPage.css";
 import ProfileTab from "../../Components/ProfileTab/ProfileTab";
-import ApplicationTab from "../../Components/ApplicationTab/ApplicationTab";
+import DocumentsTab from "../../Components/DocumentsTab/DocumentsTab";
+import ApplicationsTab from "../../Components/ApplicationsTab/ApplicationsTab";
+import ApplicationDetailTab from "../../Components/ApplicationDetailTab/ApplicationDetailTab";
 import SetAppointment from "../../Components/SetAppointment/SetAppointment";
 
 import { Route, Link, Switch, useHistory } from "react-router-dom";
@@ -60,14 +62,22 @@ const MainPage = () => {
             <Link to="/main">
               <li>profile</li>
             </Link>
-            <Link to="/main/application">
-              <li>application</li>
+            <Link to="main/documents">
+              <li>documents</li>
+            </Link>
+            <Link to="/main/applications">
+              <li>applications</li>
             </Link>
           </ul>
         </nav>
         <div className="applicant-details">
           <Switch>
-            <Route path="/main/application" component={ApplicationTab} />
+            <Route
+              path="/main/applications/:_id"
+              component={ApplicationDetailTab}
+            />
+            <Route path="/main/applications" component={ApplicationsTab} />
+            <Route path="/main/documents" component={DocumentsTab} />
             <Route path="/main" component={ProfileTab} />
           </Switch>
         </div>

@@ -1,13 +1,13 @@
 import ApplicationItem from "../ApplicationItem/ApplicationItem";
 import { useSelector } from "react-redux";
 
-const ApplicationTab = () => {
+const ApplicationsTab = () => {
   const applications = useSelector(
     (state) => state.applicationsReducer.applications
   );
 
   return (
-    <div className="ApplicationTab">
+    <div className="ApplicationsTab">
       <p>application history</p>
       <div className="application-history">
         {applications.map((application) => (
@@ -21,4 +21,4 @@ const ApplicationTab = () => {
   );
 };
 
-export default ApplicationTab;
+export default ApplicationsTab;
