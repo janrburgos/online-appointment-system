@@ -57,12 +57,6 @@ const Counter = () => {
     }
   }, [month, year]);
 
-  // console.log(Date.now());
-  // console.log(moment().subtract(10, "years").year());
-  // console.log(moment().year());
-  // console.log(moment().add(2, "years").year());
-  // console.log(moment().month());
-
   return (
     <div className="Counter">
       <button onClick={() => dispatch({ type: "DECREMENT" })}>-</button>

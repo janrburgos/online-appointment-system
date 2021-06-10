@@ -8,10 +8,9 @@ import axios from "axios";
 const ApplicationDetailTab = () => {
   const location = useLocation();
   const [application, setApplication] = useState({ ...location.state });
-  let fileHandler = useRef(null);
+  const fileHandler = useRef(null);
 
   const setAppointmentDateHandler = (pickedDate) => {
-    // console.log(moment(pickedDate).format("MMMM DD, YYYY"));
     axios.put(`http://localhost:1337/api/applications/${application._id}`, {
       transactionStatus: "retrieve document",
       appointmentDate: moment(pickedDate).format("MMMM DD, YYYY"),

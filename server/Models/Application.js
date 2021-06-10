@@ -19,7 +19,7 @@ const ApplicationSchema = new Schema({
   transactionStatus: { type: String, default: "-" },
   paymentReceiptUrl: String,
   paymentStatus: { type: String, default: "-" },
-  appointmentDate: { type: String, default: "-" }, // YYYY-MM-DDTHH:MM:SSZ
+  appointmentDate: { type: String, default: "-" },
 });
 
 module.exports = mongoose.model("Application", ApplicationSchema);

@@ -1,8 +1,8 @@
 import "./ApplicationItem.css";
-import moment from "moment";
-import { Link } from "react-router-dom";
 import React, { useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
+import moment from "moment";
 
 const ApplicationItem = ({ application }) => {
   const [paymentStatus, setPaymentStatus] = useState(application.paymentStatus);

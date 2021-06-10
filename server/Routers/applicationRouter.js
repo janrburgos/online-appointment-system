@@ -2,23 +2,11 @@ const express = require("express");
 const router = express.Router();
 const Application = require("../Models/Application");
 
-// router.get("/", (req, res) => {
-//   Application.find({}).then((data) => {
-//     res.send(data);
-//   });
-// });
-
 router.get("/:string", (req, res) => {
   Application.find({ applicantId: req.params.string }).then((data) => {
     res.send(data);
   });
 });
-
-// router.get("/:email", (req, res) => {
-//   Application.find({ email: req.params.email }).then((application) => {
-//     res.send(application);
-//   });
-// });
 
 router.post("/", (req, res) => {
   let newApplication = new Application(req.body);
@@ -35,11 +23,5 @@ router.put("/:_id", (req, res) => {
     res.send(application);
   });
 });
-
-// router.delete("/:_id", (req, res) => {
-//   Applicant.findByIdAndDelete(req.params._id).then((applicant) => {
-//     res.send(applicant);
-//   });
-// });
 
 module.exports = router;

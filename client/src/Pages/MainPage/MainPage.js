@@ -13,10 +13,10 @@ import axios from "axios";
 const MainPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const avatarHandler = useRef(null);
   const [applicantInfo, setApplicantInfo] = useState(
     useSelector((state) => state.applicantInfoReducer.applicantInfo)
   );
-  const avatarHandler = useRef(null);
 
   axios(`http://localhost:1337/api/doctypes`).then((res) =>
     dispatch({ type: "INSERT_DOCTYPES", payload: res.data })
@@ -30,8 +30,7 @@ const MainPage = () => {
     history.push("/main/set-appointment");
   };
 
-  const changeAvatarInputHandler = (e) => {
-    // axios.put(`http://localhost:1337/api/applicants/${applicantInfo._id}`,{avatar: })
+  const changeAvatarInputHandler = () => {
     let file = avatarHandler.current.files[0];
     let param = new FormData();
     param.append(`avatar`, file, file.name);
@@ -49,8 +48,6 @@ const MainPage = () => {
           .then((res) => setApplicantInfo(res.data));
       });
   };
-
-  // dispatch({ type: "INSERT_APPLICANT_INFO", payload: res.data })
 
   return (
     <div className="MainPage">
