@@ -13,6 +13,17 @@ const fileStorageEngine = multer.diskStorage({
 });
 const upload = multer({ storage: fileStorageEngine });
 
+const fileStorageEngineReceipt = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./public/Receipts");
+  },
+  filename: (req, file, cb) => {
+    let ext = file.mimetype.split("/");
+    cb(null, `${file.fieldname}-${Date.now()}.${ext[1]}`);
+  },
+});
+const uploadReceipt = multer({ storage: fileStorageEngineReceipt });
+
 router.post("/document4", upload.single("document4"), (req, res) => {
   res.send(req.file);
 });
@@ -29,6 +40,9 @@ router.post("/document8", upload.single("document8"), (req, res) => {
   res.send(req.file);
 });
 router.post("/document9", upload.single("document9"), (req, res) => {
+  res.send(req.file);
+});
+router.post("/receipt", uploadReceipt.single("receipt"), (req, res) => {
   res.send(req.file);
 });
 

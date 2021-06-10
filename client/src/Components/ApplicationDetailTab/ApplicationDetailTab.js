@@ -75,11 +75,10 @@ const ApplicationDetailTab = () => {
                   type="file"
                   id="avatar"
                   ref={fileHandler}
-                  accept=".jpg,.jpeg,.png,.bmp"
+                  accept="image/*"
                 />
                 <button
                   onClick={() => {
-                    console.log(reqr.requirementName);
                     let file = fileHandler.current.files[0];
                     let param = new FormData();
                     param.append(`${reqr.requirementName}`, file, file.name);

@@ -16,6 +16,7 @@ const ApplicationSchema = new Schema({
   ],
   transactionDate: { type: Date, default: Date.now() },
   transactionStatus: { type: String, default: "-" },
+  paymentReceiptUrl: String,
   paymentStatus: { type: String, default: "-" },
   appointmentDate: { type: String, default: "-" }, // YYYY-MM-DDTHH:MM:SSZ
 });
