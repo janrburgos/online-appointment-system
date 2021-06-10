@@ -5,11 +5,11 @@ import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 
 const LoginPage = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
-  const history = useHistory();
-  const dispatch = useDispatch();
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -18,19 +18,19 @@ const LoginPage = () => {
     setLoginError("");
     if (email.trim() === "") {
       emailRef.current.focus();
-      return setLoginError("enter email address");
+      return setLoginError("Enter an email address");
     }
     if (password.trim() === "") {
       passwordRef.current.focus();
-      return setLoginError("enter password");
+      return setLoginError("Enter a password");
     }
     axios(`http://localhost:1337/api/applicants/${email}`).then((res) => {
       if (res.data[0] === undefined) {
         emailRef.current.focus();
-        return setLoginError("this email address is not registered");
+        return setLoginError("This email address is not registered");
       } else if (res.data[0].password !== password) {
         passwordRef.current.focus();
-        return setLoginError("this password is incorrect");
+        return setLoginError("This password is incorrect");
       } else {
         dispatch({ type: "INSERT_APPLICANT_INFO", payload: res.data[0] });
         history.push("/main");
@@ -40,9 +40,9 @@ const LoginPage = () => {
 
   return (
     <div className="LoginPage">
-      <div className="login-error">{loginError}</div>
       <div className="login-box">
-        <strong>sign in to your account</strong>
+        <p className="title">Sign in to your account</p>
+        <span className="login-error">{loginError}</span>
         <input
           type="email"
           name="email-login"
@@ -72,10 +72,22 @@ const LoginPage = () => {
         <button className="login-button" onClick={handleClick}>
           Log In
         </button>
+        <small
+          onClick={() => {
+            passwordRef.current.type === "password"
+              ? (passwordRef.current.type = "text")
+              : (passwordRef.current.type = "password");
+          }}
+        >
+          Show/Hide password
+        </small>
       </div>
-      <Link to="/register">
-        <p>register</p>
-      </Link>
+      <p className="register-message">
+        Don't have an account?
+        <Link to="/register">
+          <span> Register here</span>
+        </Link>
+      </p>
     </div>
   );
 };

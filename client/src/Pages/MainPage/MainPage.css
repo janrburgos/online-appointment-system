@@ -2,14 +2,10 @@
   position: relative;
 }
 
-header {
-  background-color: aqua;
-}
-
+header,
 .applicant-main {
-  background-color: yellow;
+  background-color: var(--secondary-color);
 }
-
 .change-avatar-button {
   display: none;
 }
@@ -24,7 +20,7 @@ header {
 }
 
 .applicant-nav {
-  background-color: greenyellow;
+  background-color: var(--primary-color);
 }
 
 .applicant-nav ul {
