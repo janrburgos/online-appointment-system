@@ -1,11 +1,7 @@
-import { useSelector, useDispatch } from "react-redux";
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 
-const Counter = () => {
-  const counter = useSelector((state) => state.counterReducer.counter);
-  const dispatch = useDispatch();
-
+const SetAppointmentDate = (props) => {
   const months = [
     "january",
     "february",
@@ -57,32 +53,14 @@ const Counter = () => {
     }
   }, [month, year]);
 
-  // console.log(Date.now());
-  // console.log(moment().subtract(10, "years").year());
-  // console.log(moment().year());
-  // console.log(moment().add(2, "years").year());
-  // console.log(moment().month());
+  const setAppointmentButtonClickHandler = () => {
+    let mm = months.indexOf(month) + 1;
+    mm = mm < 10 ? `0${mm}` : mm;
+    props.setAppointmentDateHandler(`${year}${mm}${day}`);
+  };
 
   return (
-    <div className="Counter">
-      <button onClick={() => dispatch({ type: "DECREMENT" })}>-</button>
-      {counter}
-      <button onClick={() => dispatch({ type: "INCREMENT" })}>+</button>
-      <br />
-      <form
-        action="http://localhost:1337/api/upload"
-        method="post"
-        encType="multipart/form-data"
-      >
-        <input
-          type="file"
-          name="avatar"
-          id="avatar"
-          accept=".jpg,.jpeg,.png,.bmp"
-        />
-        <br />
-        <button>save image</button>
-      </form>
+    <div className="SetAppointmentDate">
       <select
         name="day"
         id="day"
@@ -119,8 +97,11 @@ const Counter = () => {
           </option>
         ))}
       </select>
+      <button onClick={setAppointmentButtonClickHandler}>
+        set appointment date
+      </button>
     </div>
   );
 };
 
-export default Counter;
+export default SetAppointmentDate;

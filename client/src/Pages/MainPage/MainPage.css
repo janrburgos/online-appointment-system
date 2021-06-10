@@ -10,6 +10,19 @@ header {
   background-color: yellow;
 }
 
+.change-avatar-button {
+  display: none;
+}
+
+.change-avatar-label {
+  border: 1px solid #888;
+  display: inline-block;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 3px;
+  background-color: #f0f0f0;
+}
+
 .applicant-nav {
   background-color: greenyellow;
 }

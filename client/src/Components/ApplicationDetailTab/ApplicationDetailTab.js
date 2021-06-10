@@ -1,4 +1,5 @@
 import "./ApplicationDetailTab.css";
+import SetAppointmentDate from "../SetAppointmentDate/SetAppointmentDate";
 import { Route, Link, useLocation } from "react-router-dom";
 import React, { useState, useRef } from "react";
 import moment from "moment";
@@ -8,6 +9,14 @@ const ApplicationDetailTab = () => {
   const location = useLocation();
   const [application, setApplication] = useState({ ...location.state });
   let fileHandler = useRef(null);
+
+  const setAppointmentDateHandler = (pickedDate) => {
+    // console.log(moment(pickedDate).format("MMMM DD, YYYY"));
+    axios.put(`http://localhost:1337/api/applications/${application._id}`, {
+      transactionStatus: "retrieve document",
+      appointmentDate: moment(pickedDate).format("MMMM DD, YYYY"),
+    });
+  };
   return (
     <div className="ApplicationDetailTab">
       <div className="application-detail-top">
@@ -48,6 +57,11 @@ const ApplicationDetailTab = () => {
           </tbody>
         </table>
       </div>
+      {application.transactionStatus === "set appointment" && (
+        <SetAppointmentDate
+          setAppointmentDateHandler={setAppointmentDateHandler}
+        />
+      )}
       <div className="application-detail-bottom">
         <div className="requirement-list">
           <ul>
@@ -99,6 +113,7 @@ const ApplicationDetailTab = () => {
                         transactionsToEdit[index] = {
                           requirementName: reqr.requirementName,
                           requirementUrl: res.data.filename,
+                          requirementStatus: "pending",
                         };
                         axios
                           .put(

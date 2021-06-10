@@ -7,14 +7,16 @@ import SetAppointment from "../../Components/SetAppointment/SetAppointment";
 
 import { Route, Link, Switch, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 
 const MainPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const applicantInfo = useSelector(
-    (state) => state.applicantInfoReducer.applicantInfo
+  const [applicantInfo, setApplicantInfo] = useState(
+    useSelector((state) => state.applicantInfoReducer.applicantInfo)
   );
+  const avatarHandler = useRef(null);
 
   axios(`http://localhost:1337/api/doctypes`).then((res) =>
     dispatch({ type: "INSERT_DOCTYPES", payload: res.data })
@@ -28,16 +30,38 @@ const MainPage = () => {
     history.push("/main/set-appointment");
   };
 
+  const changeAvatarInputHandler = (e) => {
+    // axios.put(`http://localhost:1337/api/applicants/${applicantInfo._id}`,{avatar: })
+    let file = avatarHandler.current.files[0];
+    let param = new FormData();
+    param.append(`avatar`, file, file.name);
+    param.append("chunk", "0");
+    let config = {
+      headers: { "Content-Type": "multipart/form-data" },
+    };
+    axios
+      .post(`http://localhost:1337/api/upload/avatar`, param, config)
+      .then((res) => {
+        axios
+          .put(`http://localhost:1337/api/applicants/${applicantInfo._id}`, {
+            avatar: res.data.filename,
+          })
+          .then((res) => setApplicantInfo(res.data));
+      });
+  };
+
+  // dispatch({ type: "INSERT_APPLICANT_INFO", payload: res.data })
+
   return (
     <div className="MainPage">
       <header>
-        <div className="nav-menu">menu</div>
+        <button onClick={() => history.push("/")}>logout</button>
       </header>
       <main>
         <div className="applicant-main">
           <div>
             <img
-              src={`http://localhost:1337/Uploads/${applicantInfo.avatar}`}
+              src={`http://localhost:1337/Avatars/${applicantInfo.avatar}`}
               alt="avatar"
             />
             <div>
@@ -55,6 +79,15 @@ const MainPage = () => {
             >
               set appointment
             </button>
+            <label className="change-avatar-label">
+              <input
+                type="file"
+                className="change-avatar-button"
+                ref={avatarHandler}
+                onInput={changeAvatarInputHandler}
+              />
+              change avatar
+            </label>
           </div>
         </div>
         <nav className="applicant-nav">

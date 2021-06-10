@@ -12,6 +12,7 @@ const ApplicationSchema = new Schema({
         type: String,
         default: "no-document.png",
       },
+      requirementStatus: { type: String, default: "-" },
     },
   ],
   transactionDate: { type: Date, default: Date.now() },
