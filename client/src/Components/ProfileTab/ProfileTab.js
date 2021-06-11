@@ -9,7 +9,7 @@ const ProfileTab = () => {
   return (
     <section className="ProfileTab">
       <div className="personal-info">
-        <p>personal information</p>
+        <p className="inner-header">personal information</p>
         <table>
           <tbody>
             <tr>
@@ -36,7 +36,7 @@ const ProfileTab = () => {
         </table>
       </div>
       <div className="personal-address">
-        <p>personal address</p>
+        <p className="inner-header">personal address</p>
         <table>
           <tbody>
             <tr>
@@ -55,7 +55,7 @@ const ProfileTab = () => {
         </table>
       </div>
       <div className="contact-info">
-        <p>contact information</p>
+        <p className="inner-header">contact information</p>
         <table>
           <tbody>
             <tr>

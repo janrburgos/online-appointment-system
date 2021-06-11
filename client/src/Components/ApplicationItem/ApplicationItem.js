@@ -10,7 +10,7 @@ const ApplicationItem = ({ application }) => {
   return (
     <div className="ApplicationItem">
       <div className="application-card">
-        <div className="application-button">
+        <div className="application-buttons">
           <Link
             to={{
               pathname: `/main/applications/${application._id}/0`,
@@ -19,49 +19,50 @@ const ApplicationItem = ({ application }) => {
           >
             <button>view details</button>
           </Link>
-          ||
-          {paymentStatus === "-" || paymentStatus === "rejected" ? (
-            <span>Upload Receipt: </span>
-          ) : (
-            <span>Receipt Uploaded! </span>
-          )}
-          {paymentStatus !== "accepted" && (
-            <input
-              type="file"
-              id="payment-receipt"
-              accept="image/*"
-              ref={receiptHandler}
-              onInput={() => {
-                console.log(application.paymentReceiptUrl !== "");
-                let receipt = receiptHandler.current.files[0];
-                let param = new FormData();
-                param.append("receipt", receipt, receipt.name);
-                param.append("chunk", "0");
-                let config = {
-                  headers: { "Content-Type": "multipart/form-data" },
-                };
-                axios
-                  .post(
-                    "http://localhost:1337/api/upload/receipt",
-                    param,
-                    config
-                  )
-                  .then((res) => {
-                    axios
-                      .put(
-                        `http://localhost:1337/api/applications/${application._id}`,
-                        {
-                          paymentReceiptUrl: res.data.filename,
-                          paymentStatus: "pending",
-                        }
-                      )
-                      .then((res) => {
-                        setPaymentStatus(res.data.paymentStatus);
-                      });
-                  });
-              }}
-            />
-          )}
+          <div className="receipt-button">
+            {paymentStatus === "-" || paymentStatus === "rejected" ? (
+              <span>Upload Receipt: </span>
+            ) : (
+              <span>Receipt Uploaded! </span>
+            )}
+            {paymentStatus !== "accepted" && (
+              <input
+                type="file"
+                id="payment-receipt"
+                accept="image/*"
+                ref={receiptHandler}
+                onInput={() => {
+                  console.log(application.paymentReceiptUrl !== "");
+                  let receipt = receiptHandler.current.files[0];
+                  let param = new FormData();
+                  param.append("receipt", receipt, receipt.name);
+                  param.append("chunk", "0");
+                  let config = {
+                    headers: { "Content-Type": "multipart/form-data" },
+                  };
+                  axios
+                    .post(
+                      "http://localhost:1337/api/upload/receipt",
+                      param,
+                      config
+                    )
+                    .then((res) => {
+                      axios
+                        .put(
+                          `http://localhost:1337/api/applications/${application._id}`,
+                          {
+                            paymentReceiptUrl: res.data.filename,
+                            paymentStatus: "pending",
+                          }
+                        )
+                        .then((res) => {
+                          setPaymentStatus(res.data.paymentStatus);
+                        });
+                    });
+                }}
+              />
+            )}
+          </div>
         </div>
         <div className="application-middle">
           <table>
@@ -72,16 +73,17 @@ const ApplicationItem = ({ application }) => {
               </tr>
               <tr>
                 <td>Transaction Date:</td>
-                <td>
-                  <b>{moment(application.transactionDate).format("lll")}</b>
-                </td>
+                <td>{moment(application.transactionDate).format("lll")}</td>
               </tr>
               <tr>
                 <td>Transaction Status:</td>
-                <td>{application.transactionStatus}</td>
+                <td>
+                  <b>{application.transactionStatus}</b>
+                </td>
               </tr>
             </tbody>
           </table>
+          <div className="table-divider"></div>
           <table>
             <tbody>
               <tr>
@@ -96,7 +98,9 @@ const ApplicationItem = ({ application }) => {
               </tr>
               <tr>
                 <td>Appointment Date:</td>
-                <td>{application.appointmentDate}</td>
+                <td>
+                  <b>{application.appointmentDate}</b>
+                </td>
               </tr>
             </tbody>
           </table>

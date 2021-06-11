@@ -8,6 +8,7 @@ import axios from "axios";
 const ApplicationDetailTab = () => {
   const location = useLocation();
   const [application, setApplication] = useState({ ...location.state });
+  const [selectedDocumentIndex, setSelectedDocumentIndex] = useState(0);
   const fileHandler = useRef(null);
 
   const setAppointmentDateHandler = (pickedDate) => {
@@ -27,16 +28,17 @@ const ApplicationDetailTab = () => {
             </tr>
             <tr>
               <td>Transaction Date:</td>
-              <td>
-                <b>{moment(application.transactionDate).format("lll")}</b>
-              </td>
+              <td>{moment(application.transactionDate).format("lll")}</td>
             </tr>
             <tr>
               <td>Transaction Status:</td>
-              <td>{application.transactionStatus}</td>
+              <td>
+                <b>{application.transactionStatus}</b>
+              </td>
             </tr>
           </tbody>
         </table>
+        <div className="table-divider"></div>
         <table>
           <tbody>
             <tr>
@@ -51,12 +53,14 @@ const ApplicationDetailTab = () => {
             </tr>
             <tr>
               <td>Appointment Date:</td>
-              <td>{application.appointmentDate}</td>
+              <td>
+                <b>{application.appointmentDate}</b>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
-      {application.transactionStatus === "set appointment" && (
+      {application.transactionStatus === "set appointment date" && (
         <SetAppointmentDate
           setAppointmentDateHandler={setAppointmentDateHandler}
         />
@@ -65,15 +69,28 @@ const ApplicationDetailTab = () => {
         <div className="requirement-list">
           <ul>
             {application.transactionRequirements.map((reqr, index) => (
-              <Link
-                key={`link-${index}-${reqr.requirementName}`}
-                to={{
-                  pathname: `/main/applications/${application._id}/${index}`,
-                  state: { ...application },
-                }}
-              >
-                <li>{reqr.requirementName}</li>
-              </Link>
+              <li key={`requirement-list-li-${index}-${reqr.requirementName}`}>
+                <Link
+                  to={{
+                    pathname: `/main/applications/${application._id}/${index}`,
+                    state: { ...application },
+                  }}
+                  onClick={() => setSelectedDocumentIndex(index)}
+                >
+                  <div
+                    style={
+                      index === selectedDocumentIndex
+                        ? {
+                            backgroundColor: "var(--secondary-color)",
+                            fontWeight: "bold",
+                          }
+                        : null
+                    }
+                  >
+                    {reqr.requirementName}
+                  </div>
+                </Link>
+              </li>
             ))}
           </ul>
         </div>

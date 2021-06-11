@@ -16,9 +16,9 @@ const ApplicationSchema = new Schema({
     },
   ],
   transactionDate: { type: Date, default: Date.now() },
-  transactionStatus: { type: String, default: "-" },
-  paymentReceiptUrl: String,
-  paymentStatus: { type: String, default: "-" },
+  transactionStatus: { type: String, default: "-" }, // "pending", "to resubmit requirements", "set appointment date" "to claim document", "cancelled"
+  paymentReceiptUrl: { type: String, default: "" },
+  paymentStatus: { type: String, default: "-" }, // "pending", "rejected", "accepted"
   appointmentDate: { type: String, default: "-" },
 });
 

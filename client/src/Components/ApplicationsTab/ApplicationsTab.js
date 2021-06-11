@@ -1,3 +1,4 @@
+import "./ApplicationsTab.css";
 import ApplicationItem from "../ApplicationItem/ApplicationItem";
 import { useSelector } from "react-redux";
 
@@ -8,7 +9,7 @@ const ApplicationsTab = () => {
 
   return (
     <section className="ApplicationsTab">
-      <p>application history</p>
+      <p className="inner-header">application history</p>
       <div className="application-history">
         {applications.map((application) => (
           <ApplicationItem

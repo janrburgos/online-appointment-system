@@ -27,7 +27,6 @@ const SetAppointment = () => {
         return { requirementName: reqr };
       }),
     ];
-    console.log(transactionRequirements);
     axios.post("http://localhost:1337/api/applications", {
       applicantId: applicantInfo._id,
       transactionDocument: selectedDocument.name,
@@ -41,7 +40,9 @@ const SetAppointment = () => {
     <div className="SetAppointment">
       <div className="set-appointment-modal">
         <div className="select-title">
-          <label htmlFor="select-document">select document</label>
+          <label htmlFor="select-document">
+            <b>select document:</b>
+          </label>
           <select
             name="select-document"
             id="select-document"
@@ -60,7 +61,9 @@ const SetAppointment = () => {
           </select>
         </div>
         <div className="requirement-box">
-          <div className="requirement-title">requirements</div>
+          <div className="requirement-title">
+            <b>requirements:</b>
+          </div>
           <div className="requirement-list">
             <ul>
               {selectedDocument.requirements.map((doc, index) => (
