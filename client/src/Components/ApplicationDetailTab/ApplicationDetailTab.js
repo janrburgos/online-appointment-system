@@ -8,7 +8,9 @@ import axios from "axios";
 const ApplicationDetailTab = () => {
   const location = useLocation();
   const [application, setApplication] = useState(location.state);
-  const [selectedDocumentIndex, setSelectedDocumentIndex] = useState(0);
+  const [selectedDocumentIndex, setSelectedDocumentIndex] = useState(
+    Number(localStorage.getItem("selectedDocumentIndex"))
+  );
   const fileHandler = useRef(null);
 
   const setAppointmentDateHandler = (pickedDate) => {
@@ -79,7 +81,10 @@ const ApplicationDetailTab = () => {
                     pathname: `/main/applications/${application._id}/${index}`,
                     state: { ...application },
                   }}
-                  onClick={() => setSelectedDocumentIndex(index)}
+                  onClick={() => {
+                    setSelectedDocumentIndex(index);
+                    localStorage.setItem("selectedDocumentIndex", index);
+                  }}
                 >
                   <div
                     style={

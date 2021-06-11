@@ -14,7 +14,7 @@ const LoginPage = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
-  const handleClick = () => {
+  const loginHandler = () => {
     setLoginError("");
     if (email.trim() === "") {
       emailRef.current.focus();
@@ -33,6 +33,8 @@ const LoginPage = () => {
         return setLoginError("This password is incorrect");
       } else {
         dispatch({ type: "INSERT_APPLICANT_INFO", payload: res.data[0] });
+        localStorage.setItem("applicantInfo", JSON.stringify(res.data[0]));
+        localStorage.setItem("highlightedNav", "profile");
         history.push("/main");
       }
     });
@@ -67,9 +69,9 @@ const LoginPage = () => {
             setPassword(e.target.value);
           }}
           ref={passwordRef}
-          onKeyDown={(e) => (e.key === "Enter" ? handleClick() : null)}
+          onKeyDown={(e) => (e.key === "Enter" ? loginHandler() : null)}
         />
-        <button className="login-button" onClick={handleClick}>
+        <button className="login-button" onClick={loginHandler}>
           Log In
         </button>
         <small

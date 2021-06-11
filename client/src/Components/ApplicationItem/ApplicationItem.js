@@ -19,6 +19,7 @@ const ApplicationItem = (props) => {
                 ...application,
               },
             }}
+            onClick={() => localStorage.setItem("selectedDocumentIndex", 0)}
           >
             <button>view details</button>
           </Link>

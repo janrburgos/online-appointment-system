@@ -1,11 +1,21 @@
 import "./ProfileTab.css";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
 import moment from "moment";
 
 const ProfileTab = () => {
-  const applicantInfo = useSelector(
-    (state) => state.applicantInfoReducer.applicantInfo
+  const history = useHistory();
+  const [applicantInfo, setApplicantInfo] = useState(
+    useSelector((state) => state.applicantInfoReducer.applicantInfo)
   );
+
+  if (localStorage.getItem("applicantInfo") === null) {
+    history.push("/");
+  } else if (applicantInfo._id === undefined) {
+    setApplicantInfo(JSON.parse(localStorage.getItem("applicantInfo")));
+  }
+
   return (
     <section className="ProfileTab">
       <div className="personal-info">

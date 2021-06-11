@@ -14,14 +14,18 @@ const MainPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const avatarHandler = useRef(null);
-  const [highlightedNav, setHighlightedNav] = useState("profile");
+  const [highlightedNav, setHighlightedNav] = useState(
+    localStorage.getItem("highlightedNav")
+  );
   const [applicantInfo, setApplicantInfo] = useState(
     useSelector((state) => state.applicantInfoReducer.applicantInfo)
   );
 
-  axios(`http://localhost:1337/api/doctypes`).then((res) =>
-    dispatch({ type: "INSERT_DOCTYPES", payload: res.data })
-  );
+  if (localStorage.getItem("applicantInfo") === null) {
+    history.push("/");
+  } else if (applicantInfo._id === undefined) {
+    setApplicantInfo(JSON.parse(localStorage.getItem("applicantInfo")));
+  }
 
   axios(`http://localhost:1337/api/applications/${applicantInfo._id}`).then(
     (res) => dispatch({ type: "INSERT_APPLICATIONS", payload: res.data })
@@ -46,7 +50,10 @@ const MainPage = () => {
           .put(`http://localhost:1337/api/applicants/${applicantInfo._id}`, {
             avatar: res.data.filename,
           })
-          .then((res) => setApplicantInfo(res.data));
+          .then((res) => {
+            setApplicantInfo(res.data);
+            localStorage.setItem("applicantInfo", JSON.stringify(res.data));
+          });
       });
   };
 
@@ -94,7 +101,13 @@ const MainPage = () => {
         </div>
         <nav className="applicant-nav">
           <ul>
-            <Link to="/main" onClick={() => setHighlightedNav("profile")}>
+            <Link
+              to="/main"
+              onClick={() => {
+                setHighlightedNav("profile");
+                localStorage.setItem("highlightedNav", "profile");
+              }}
+            >
               <li>
                 <div
                   style={
@@ -112,7 +125,10 @@ const MainPage = () => {
             </Link>
             <Link
               to="/main/documents"
-              onClick={() => setHighlightedNav("documents")}
+              onClick={() => {
+                setHighlightedNav("documents");
+                localStorage.setItem("highlightedNav", "documents");
+              }}
             >
               <li>
                 <div
@@ -131,7 +147,10 @@ const MainPage = () => {
             </Link>
             <Link
               to="/main/applications"
-              onClick={() => setHighlightedNav("applications")}
+              onClick={() => {
+                setHighlightedNav("applications");
+                localStorage.setItem("highlightedNav", "applications");
+              }}
             >
               <li>
                 <div
