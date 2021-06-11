@@ -17,11 +17,11 @@
 
 .requirement-list div {
   padding: 5px;
+  transition: all 0.2s ease-in-out;
 }
 
 .requirement-list div:hover {
   background-color: var(--secondary-color);
-  font-weight: bold;
 }
 
 .document-photo-container {

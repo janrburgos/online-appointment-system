@@ -14,6 +14,15 @@
   gap: 5px;
 }
 
+.left-arrow {
+  display: none;
+}
+
+.receipt-button {
+  display: flex;
+  flex-direction: column;
+}
+
 .application-middle {
   display: grid;
 }
@@ -30,6 +39,19 @@
   .application-buttons {
     flex-direction: row;
     justify-content: space-between;
+  }
+
+  .left-arrow {
+    display: inline;
+  }
+
+  .up-arrow {
+    display: none;
+  }
+
+  .receipt-button {
+    flex-direction: row;
+    align-items: center;
   }
 
   .application-middle {

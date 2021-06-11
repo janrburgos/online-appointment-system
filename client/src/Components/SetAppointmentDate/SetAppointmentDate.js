@@ -1,3 +1,4 @@
+import "./SetAppointmentDate.css";
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 
@@ -61,42 +62,44 @@ const SetAppointmentDate = (props) => {
 
   return (
     <div className="SetAppointmentDate">
-      <select
-        name="day"
-        id="day"
-        value={day}
-        onChange={(e) => setDay(e.target.value)}
-      >
-        {days.map((day) => (
-          <option key={`option-appointment-${day}`} value={day}>
-            {day}
-          </option>
-        ))}
-      </select>
-      <select
-        name="month"
-        id="month"
-        value={month}
-        onChange={(e) => setMonth(e.target.value)}
-      >
-        {months.map((month) => (
-          <option key={`option-appointment-${month}`} value={month}>
-            {month}
-          </option>
-        ))}
-      </select>
-      <select
-        name="year"
-        id="year"
-        value={year}
-        onChange={(e) => setYear(e.target.value)}
-      >
-        {years.map((year) => (
-          <option key={`option-appointment-${year}`} value={year}>
-            {year}
-          </option>
-        ))}
-      </select>
+      <div className="date-select-group">
+        <select
+          name="day"
+          id="day"
+          value={day}
+          onChange={(e) => setDay(e.target.value)}
+        >
+          {days.map((day) => (
+            <option key={`option-appointment-${day}`} value={day}>
+              {day}
+            </option>
+          ))}
+        </select>
+        <select
+          name="month"
+          id="month"
+          value={month}
+          onChange={(e) => setMonth(e.target.value)}
+        >
+          {months.map((month) => (
+            <option key={`option-appointment-${month}`} value={month}>
+              {month}
+            </option>
+          ))}
+        </select>
+        <select
+          name="year"
+          id="year"
+          value={year}
+          onChange={(e) => setYear(e.target.value)}
+        >
+          {years.map((year) => (
+            <option key={`option-appointment-${year}`} value={year}>
+              {year}
+            </option>
+          ))}
+        </select>
+      </div>
       <button onClick={setAppointmentButtonClickHandler}>
         set appointment date
       </button>

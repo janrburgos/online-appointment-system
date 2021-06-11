@@ -1,12 +1,16 @@
 import "./SetAppointment.css";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
 const SetAppointment = () => {
+  const dispatch = useDispatch();
   const applicantInfo = useSelector(
     (state) => state.applicantInfoReducer.applicantInfo
+  );
+  const applications = useSelector(
+    (state) => state.applicationsReducer.applications
   );
   const doctypes = useSelector((state) => state.doctypesReducer.doctypes);
   const history = useHistory();
@@ -18,7 +22,7 @@ const SetAppointment = () => {
   const [selectedDocumentName, setSelectedDocumentName] = useState("");
 
   const closeButtonClickHandler = () => {
-    history.push("/main");
+    history.push("/main/applications");
   };
 
   const proceedButtonClickHandler = () => {
@@ -27,13 +31,18 @@ const SetAppointment = () => {
         return { requirementName: reqr };
       }),
     ];
-    axios.post("http://localhost:1337/api/applications", {
-      applicantId: applicantInfo._id,
-      transactionDocument: selectedDocument.name,
-      amount: selectedDocument.amount,
-      transactionRequirements,
-    });
-    history.push("/main/application");
+    axios
+      .post("http://localhost:1337/api/applications", {
+        applicantId: applicantInfo._id,
+        transactionDocument: selectedDocument.name,
+        amount: selectedDocument.amount,
+        transactionRequirements,
+      })
+      .then((res) => {
+        let newApplications = [...applications, res.data];
+        dispatch({ type: "INSERT_APPLICATIONS", payload: newApplications });
+      });
+    history.push("/main/applications");
   };
 
   return (

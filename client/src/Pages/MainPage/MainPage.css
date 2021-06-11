@@ -42,6 +42,19 @@ header,
   width: min(100%, 320px);
 }
 
+.avatar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+}
+
+.avatar-container img {
+  width: 100%;
+}
+
 .primary-info {
   text-align: center;
 }
@@ -91,6 +104,7 @@ header,
   width: 100%;
   text-align: center;
   padding: 5px 0;
+  transition: all 0.2s ease-in-out;
 }
 
 .applicant-nav div:hover {
@@ -111,6 +125,16 @@ section .inner-header {
     margin: 0;
     gap: 20px;
     width: 100%;
+  }
+
+  .avatar-container {
+    height: 280px;
+    width: auto;
+  }
+
+  .avatar-container img {
+    height: 100%;
+    width: auto;
   }
 
   .primary-info,

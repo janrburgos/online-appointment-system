@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 
-const ApplicationItem = ({ application }) => {
-  const [paymentStatus, setPaymentStatus] = useState(application.paymentStatus);
+const ApplicationItem = (props) => {
+  const [application, setApplication] = useState(props.application);
   let receiptHandler = useRef(null);
+
   return (
     <div className="ApplicationItem">
       <div className="application-card">
@@ -14,25 +15,21 @@ const ApplicationItem = ({ application }) => {
           <Link
             to={{
               pathname: `/main/applications/${application._id}/0`,
-              state: { ...application },
+              state: {
+                ...application,
+              },
             }}
           >
             <button>view details</button>
           </Link>
           <div className="receipt-button">
-            {paymentStatus === "-" || paymentStatus === "rejected" ? (
-              <span>Upload Receipt: </span>
-            ) : (
-              <span>Receipt Uploaded! </span>
-            )}
-            {paymentStatus !== "accepted" && (
+            {application.paymentStatus !== "accepted" && (
               <input
                 type="file"
                 id="payment-receipt"
                 accept="image/*"
                 ref={receiptHandler}
                 onInput={() => {
-                  console.log(application.paymentReceiptUrl !== "");
                   let receipt = receiptHandler.current.files[0];
                   let param = new FormData();
                   param.append("receipt", receipt, receipt.name);
@@ -56,11 +53,20 @@ const ApplicationItem = ({ application }) => {
                           }
                         )
                         .then((res) => {
-                          setPaymentStatus(res.data.paymentStatus);
+                          setApplication(res.data);
                         });
                     });
                 }}
               />
+            )}
+            {application.paymentStatus === "-" ||
+            application.paymentStatus === "rejected" ? (
+              <div>
+                <span className="left-arrow">&#8592;</span>
+                <span className="up-arrow">&#8593;</span> Upload Your Receipt
+              </div>
+            ) : (
+              <div>Receipt Uploaded! </div>
             )}
           </div>
         </div>

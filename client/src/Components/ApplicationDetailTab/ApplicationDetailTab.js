@@ -7,15 +7,19 @@ import axios from "axios";
 
 const ApplicationDetailTab = () => {
   const location = useLocation();
-  const [application, setApplication] = useState({ ...location.state });
+  const [application, setApplication] = useState(location.state);
   const [selectedDocumentIndex, setSelectedDocumentIndex] = useState(0);
   const fileHandler = useRef(null);
 
   const setAppointmentDateHandler = (pickedDate) => {
-    axios.put(`http://localhost:1337/api/applications/${application._id}`, {
-      transactionStatus: "retrieve document",
-      appointmentDate: moment(pickedDate).format("MMMM DD, YYYY"),
-    });
+    axios
+      .put(`http://localhost:1337/api/applications/${application._id}`, {
+        transactionStatus: "to claim document",
+        appointmentDate: moment(pickedDate).format("MMMM DD, YYYY"),
+      })
+      .then((res) => {
+        setApplication(res.data);
+      });
   };
   return (
     <section className="ApplicationDetailTab">
@@ -82,7 +86,6 @@ const ApplicationDetailTab = () => {
                       index === selectedDocumentIndex
                         ? {
                             backgroundColor: "var(--secondary-color)",
-                            fontWeight: "bold",
                           }
                         : null
                     }
@@ -106,9 +109,7 @@ const ApplicationDetailTab = () => {
                   id="avatar"
                   ref={fileHandler}
                   accept="image/*"
-                />
-                <button
-                  onClick={() => {
+                  onInput={() => {
                     let file = fileHandler.current.files[0];
                     let param = new FormData();
                     param.append(`${reqr.requirementName}`, file, file.name);
@@ -141,9 +142,7 @@ const ApplicationDetailTab = () => {
                           });
                       });
                   }}
-                >
-                  save image
-                </button>
+                />
               </div>
               <img
                 src={`http://localhost:1337/Uploads/${reqr.requirementUrl}`}

@@ -14,6 +14,7 @@ const MainPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const avatarHandler = useRef(null);
+  const [highlightedNav, setHighlightedNav] = useState("profile");
   const [applicantInfo, setApplicantInfo] = useState(
     useSelector((state) => state.applicantInfoReducer.applicantInfo)
   );
@@ -57,10 +58,12 @@ const MainPage = () => {
       <main>
         <div className="applicant-main">
           <div className="applicant-main-top">
-            <img
-              src={`http://localhost:1337/Avatars/${applicantInfo.avatar}`}
-              alt="avatar"
-            />
+            <div className="avatar-container">
+              <img
+                src={`http://localhost:1337/Avatars/${applicantInfo.avatar}`}
+                alt="avatar"
+              />
+            </div>
             <div className="primary-info">
               <div className="applicant-name">
                 {`${applicantInfo.firstName} ${applicantInfo.middleName} ${applicantInfo.lastName}`}
@@ -91,19 +94,58 @@ const MainPage = () => {
         </div>
         <nav className="applicant-nav">
           <ul>
-            <Link to="/main">
+            <Link to="/main" onClick={() => setHighlightedNav("profile")}>
               <li>
-                <div>profile</div>
+                <div
+                  style={
+                    highlightedNav === "profile"
+                      ? {
+                          backgroundColor: "var(--font-color)",
+                          color: "var(--secondary-color)",
+                        }
+                      : null
+                  }
+                >
+                  profile
+                </div>
               </li>
             </Link>
-            <Link to="/main/documents">
+            <Link
+              to="/main/documents"
+              onClick={() => setHighlightedNav("documents")}
+            >
               <li>
-                <div>documents</div>
+                <div
+                  style={
+                    highlightedNav === "documents"
+                      ? {
+                          backgroundColor: "var(--font-color)",
+                          color: "var(--secondary-color)",
+                        }
+                      : null
+                  }
+                >
+                  documents
+                </div>
               </li>
             </Link>
-            <Link to="/main/applications">
+            <Link
+              to="/main/applications"
+              onClick={() => setHighlightedNav("applications")}
+            >
               <li>
-                <div>applications</div>
+                <div
+                  style={
+                    highlightedNav === "applications"
+                      ? {
+                          backgroundColor: "var(--font-color)",
+                          color: "var(--secondary-color)",
+                        }
+                      : null
+                  }
+                >
+                  applications
+                </div>
               </li>
             </Link>
           </ul>

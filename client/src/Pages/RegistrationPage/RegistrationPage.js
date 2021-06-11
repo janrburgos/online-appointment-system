@@ -74,19 +74,19 @@ const RegistrationPage = () => {
   let registerButtonClickHandler = () => {
     setRegistrationError("");
     let registerBody = {
-      email,
+      email: email.trim(),
       password,
-      mobileNumber,
-      firstName,
-      middleName,
-      lastName,
+      mobileNumber: mobileNumber.trim(),
+      firstName: firstName.trim().toLowerCase(),
+      middleName: middleName.trim().toLowerCase(),
+      lastName: lastName.trim().toLowerCase(),
       gender,
       birthDate: `${year}${month}${day}`,
       civilStatus,
-      citizenship,
-      placeOfBirth,
-      currentAddress,
-      permanentAddress,
+      citizenship: citizenship.trim(),
+      placeOfBirth: placeOfBirth.trim(),
+      currentAddress: currentAddress.trim(),
+      permanentAddress: permanentAddress.trim(),
     };
     axios(`http://localhost:1337/api/applicants/${email}`).then((res) => {
       if (res.data[0] !== undefined) {
@@ -239,6 +239,7 @@ const RegistrationPage = () => {
           >
             <option value="single">single</option>
             <option value="married">married</option>
+            <option value="annulled">annulled</option>
             <option value="divorced">divorced</option>
             <option value="widowed">widowed</option>
           </select>
