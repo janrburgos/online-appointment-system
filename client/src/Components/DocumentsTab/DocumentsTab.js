@@ -1,5 +1,5 @@
 const DocumentsTab = () => {
-  return <div className="DocumentsTab">documents tab</div>;
+  return <section className="DocumentsTab">documents tab</section>;
 };
 
 export default DocumentsTab;

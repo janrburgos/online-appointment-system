@@ -1,11 +1,13 @@
+import "./ProfileTab.css";
 import { useSelector } from "react-redux";
+import moment from "moment";
 
 const ProfileTab = () => {
   const applicantInfo = useSelector(
     (state) => state.applicantInfoReducer.applicantInfo
   );
   return (
-    <div className="ProfileTab">
+    <section className="ProfileTab">
       <div className="personal-info">
         <p>personal information</p>
         <table>
@@ -20,7 +22,7 @@ const ProfileTab = () => {
             </tr>
             <tr>
               <th>birth date</th>
-              <td>{applicantInfo.birthDate}</td>
+              <td>{moment(applicantInfo.birthDate).format("MMMM DD, YYYY")}</td>
             </tr>
             <tr>
               <th>civil status</th>
@@ -58,16 +60,16 @@ const ProfileTab = () => {
           <tbody>
             <tr>
               <th>email address</th>
-              <td>{applicantInfo.email}</td>
+              <td className="contact-info-email">{applicantInfo.email}</td>
             </tr>
             <tr>
               <th>contact number</th>
-              <td>{`0${applicantInfo.mobileNumber}`}</td>
+              <td>{`+63${applicantInfo.mobileNumber}`}</td>
             </tr>
           </tbody>
         </table>
       </div>
-    </div>
+    </section>
   );
 };
 

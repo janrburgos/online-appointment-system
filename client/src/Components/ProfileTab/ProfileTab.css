@@ -1,0 +1,31 @@
+.ProfileTab > div {
+  margin-bottom: 10px;
+}
+
+.ProfileTab p {
+  font-weight: bold;
+  text-shadow: 1px 1px 2px var(--primary-color);
+  font-size: 1.2rem;
+}
+
+.ProfileTab th {
+  text-align: right;
+}
+
+.ProfileTab td {
+  padding-left: 5px;
+}
+
+.contact-info-email {
+  text-transform: lowercase;
+}
+
+@media only screen and (min-width: 576px) {
+  .ProfileTab > div {
+    margin-bottom: 20px;
+  }
+
+  .ProfileTab p {
+    font-size: 1.5rem;
+  }
+}

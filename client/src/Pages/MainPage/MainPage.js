@@ -56,20 +56,22 @@ const MainPage = () => {
       </header>
       <main>
         <div className="applicant-main">
-          <div>
+          <div className="applicant-main-top">
             <img
               src={`http://localhost:1337/Avatars/${applicantInfo.avatar}`}
               alt="avatar"
             />
-            <div>
+            <div className="primary-info">
               <div className="applicant-name">
                 {`${applicantInfo.firstName} ${applicantInfo.middleName} ${applicantInfo.lastName}`}
               </div>
               <div className="applicant-email">{applicantInfo.email}</div>
-              <div className="applicant-number">12345</div>
+              <div className="applicant-number">
+                {applicantInfo.applicantNumber}
+              </div>
             </div>
           </div>
-          <div className="button-div">
+          <div className="applicant-main-bottom">
             <button
               className="appointment-button"
               onClick={setAppointmentButtonClickHandler}
@@ -90,13 +92,19 @@ const MainPage = () => {
         <nav className="applicant-nav">
           <ul>
             <Link to="/main">
-              <li>profile</li>
+              <li>
+                <div>profile</div>
+              </li>
             </Link>
             <Link to="/main/documents">
-              <li>documents</li>
+              <li>
+                <div>documents</div>
+              </li>
             </Link>
             <Link to="/main/applications">
-              <li>applications</li>
+              <li>
+                <div>applications</div>
+              </li>
             </Link>
           </ul>
         </nav>

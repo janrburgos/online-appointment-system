@@ -7,7 +7,7 @@ const ApplicationsTab = () => {
   );
 
   return (
-    <div className="ApplicationsTab">
+    <section className="ApplicationsTab">
       <p>application history</p>
       <div className="application-history">
         {applications.map((application) => (
@@ -17,7 +17,7 @@ const ApplicationsTab = () => {
           />
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

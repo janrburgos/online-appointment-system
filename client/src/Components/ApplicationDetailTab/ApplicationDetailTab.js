@@ -17,7 +17,7 @@ const ApplicationDetailTab = () => {
     });
   };
   return (
-    <div className="ApplicationDetailTab">
+    <section className="ApplicationDetailTab">
       <div className="application-detail-top">
         <table>
           <tbody>
@@ -136,7 +136,7 @@ const ApplicationDetailTab = () => {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

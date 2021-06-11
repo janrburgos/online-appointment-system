@@ -81,7 +81,7 @@ const RegistrationPage = () => {
       middleName,
       lastName,
       gender,
-      birthDate: `${year}-${month}-${day}`,
+      birthDate: `${year}${month}${day}`,
       civilStatus,
       citizenship,
       placeOfBirth,
