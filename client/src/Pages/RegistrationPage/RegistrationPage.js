@@ -73,6 +73,28 @@ const RegistrationPage = () => {
 
   let registerButtonClickHandler = () => {
     setRegistrationError("");
+
+    if (password.length < 4) {
+      return setRegistrationError("Password should have at least 4 characters");
+    } else if (mobileNumber.length > 10) {
+      return setRegistrationError(
+        "Mobile number input should not exceed 10 numbers"
+      );
+    } else if (
+      email.trim() === "" ||
+      password.trim() === "" ||
+      mobileNumber.trim() === "" ||
+      firstName.trim() === "" ||
+      middleName.trim() === "" ||
+      lastName.trim() === "" ||
+      citizenship.trim() === "" ||
+      placeOfBirth.trim() === "" ||
+      currentAddress.trim() === "" ||
+      permanentAddress.trim() === ""
+    ) {
+      return setRegistrationError("Do not leave any items blank");
+    }
+
     let registerBody = {
       email: email.trim(),
       password,
@@ -88,15 +110,16 @@ const RegistrationPage = () => {
       currentAddress: currentAddress.trim(),
       permanentAddress: permanentAddress.trim(),
     };
+
     axios(`http://localhost:1337/api/applicants/${email}`).then((res) => {
       if (res.data[0] !== undefined) {
         return setRegistrationError(
-          "the email address provided is already registered"
+          "The email address you provided is already registered"
         );
       }
       axios
         .post("http://localhost:1337/api/applicants", registerBody)
-        .then(alert(`added ${firstName} in the database`));
+        .then(alert(`added ${firstName} ${lastName} to the database`));
       history.push("/");
     });
   };
@@ -131,10 +154,9 @@ const RegistrationPage = () => {
           <input
             type="number"
             id="reg-mobile-number"
-            onChange={(e) => {
-              setMobileNumber(e.target.value);
-            }}
+            onChange={(e) => setMobileNumber(e.target.value)}
             value={mobileNumber}
+            maxLength={10}
           />
         </div>
         <div className="form-row">

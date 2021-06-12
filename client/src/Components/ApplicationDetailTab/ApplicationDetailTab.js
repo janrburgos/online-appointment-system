@@ -146,11 +146,12 @@ const ApplicationDetailTab = () => {
           </tbody>
         </table>
       </div>
-      {application.transactionStatus === "set appointment date" && (
-        <SetAppointmentDate
-          setAppointmentDateHandler={setAppointmentDateHandler}
-        />
-      )}
+      {location.state.role === "applicant" &&
+        application.transactionStatus === "set appointment date" && (
+          <SetAppointmentDate
+            setAppointmentDateHandler={setAppointmentDateHandler}
+          />
+        )}
       <div className="application-detail-bottom">
         <div className="requirement-list">
           <ul>
@@ -264,6 +265,13 @@ const ApplicationDetailTab = () => {
                             requirementUrl: res.data.filename,
                             requirementStatus: "pending",
                           };
+                          // add to documents collection
+                          axios.post("http://localhost:1337/api/documents", {
+                            applicantId: application.applicantId,
+                            docType: reqr.requirementName,
+                            documentUrl: res.data.filename,
+                          });
+                          // edit applications collection
                           axios
                             .put(
                               `http://localhost:1337/api/applications/${application._id}`,
@@ -291,7 +299,7 @@ const ApplicationDetailTab = () => {
           </Route>
         </div>
       </div>
-      {application.transactionStatus !== "reviewer" && (
+      {location.state.role === "applicant" && (
         <div className="send-application">
           <button onClick={sendApplicationClickHandler}>
             Send Application
