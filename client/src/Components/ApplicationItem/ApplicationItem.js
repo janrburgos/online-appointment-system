@@ -18,62 +18,74 @@ const ApplicationItem = (props) => {
                 ? {
                     pathname: `/main/applications/${application._id}/0`,
                     state: {
-                      ...application,
+                      application,
+                      role: props.role,
                     },
                   }
-                : { pathname: `/reviewer/applications/${application._id}/0` }
+                : {
+                    pathname: `/reviewer/applications/${application._id}/0`,
+                    state: {
+                      application,
+                      role: props.role,
+                    },
+                  }
             }
-            onClick={() => localStorage.setItem("selectedDocumentIndex", 0)}
+            onClick={() => {
+              localStorage.setItem("selectedDocumentIndex", 0);
+              localStorage.setItem("application", JSON.stringify(application));
+            }}
           >
             <button>view details</button>
           </Link>
-          <div className="receipt-button">
-            {application.paymentStatus !== "accepted" && (
-              <input
-                type="file"
-                id="payment-receipt"
-                accept="image/*"
-                ref={receiptHandler}
-                onInput={() => {
-                  let receipt = receiptHandler.current.files[0];
-                  let param = new FormData();
-                  param.append("receipt", receipt, receipt.name);
-                  param.append("chunk", "0");
-                  let config = {
-                    headers: { "Content-Type": "multipart/form-data" },
-                  };
-                  axios
-                    .post(
-                      "http://localhost:1337/api/upload/receipt",
-                      param,
-                      config
-                    )
-                    .then((res) => {
-                      axios
-                        .put(
-                          `http://localhost:1337/api/applications/${application._id}`,
-                          {
-                            paymentReceiptUrl: res.data.filename,
-                            paymentStatus: "pending",
-                          }
-                        )
-                        .then((res) => {
-                          setApplication(res.data);
-                        });
-                    });
-                }}
-              />
-            )}
-            {application.paymentStatus === "-" ||
-            application.paymentStatus === "rejected" ? (
-              <div>
-                <span className="left-arrow">&#8592;</span>
-                <span className="up-arrow">&#8593;</span> Upload Your Receipt
-              </div>
-            ) : (
-              <div>Receipt Uploaded! </div>
-            )}
-          </div>
+          {props.role === "applicant" && (
+            <div className="receipt-button">
+              {application.paymentStatus !== "accepted" && (
+                <input
+                  type="file"
+                  id="payment-receipt"
+                  accept="image/*"
+                  ref={receiptHandler}
+                  onInput={() => {
+                    let receipt = receiptHandler.current.files[0];
+                    let param = new FormData();
+                    param.append("receipt", receipt, receipt.name);
+                    param.append("chunk", "0");
+                    let config = {
+                      headers: { "Content-Type": "multipart/form-data" },
+                    };
+                    axios
+                      .post(
+                        "http://localhost:1337/api/upload/receipt",
+                        param,
+                        config
+                      )
+                      .then((res) => {
+                        axios
+                          .put(
+                            `http://localhost:1337/api/applications/${application._id}`,
+                            {
+                              paymentReceiptUrl: res.data.filename,
+                              paymentStatus: "pending",
+                            }
+                          )
+                          .then((res) => {
+                            setApplication(res.data);
+                          });
+                      });
+                  }}
+                />
+              )}
+              {application.paymentStatus === "-" ||
+              application.paymentStatus === "rejected" ? (
+                <div>
+                  <span className="left-arrow">&#8592;</span>
+                  <span className="up-arrow">&#8593;</span> Upload Your Receipt
+                </div>
+              ) : (
+                <div>Receipt Uploaded! </div>
+              )}
+            </div>
+          )}
         </div>
         <div className="application-middle">
           <table>

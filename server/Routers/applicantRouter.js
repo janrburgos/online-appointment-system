@@ -8,6 +8,12 @@ router.get("/:email", (req, res) => {
   });
 });
 
+router.get("/id/:_id", (req, res) => {
+  Applicant.find({ _id: req.params._id }).then((applicant) => {
+    res.send(applicant);
+  });
+});
+
 router.post("/", (req, res) => {
   let newApplicant = new Applicant(req.body);
   newApplicant.save().then((applicant) => {

@@ -1,3 +1,4 @@
+import "./ReviewerMainPage.css";
 import ApplicationsTab from "../../Components/ApplicationsTab/ApplicationsTab";
 import { useDispatch } from "react-redux";
 import axios from "axios";

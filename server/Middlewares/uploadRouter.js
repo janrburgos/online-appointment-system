@@ -35,6 +35,15 @@ const fileStorageEngineAvatar = multer.diskStorage({
 });
 const uploadAvatar = multer({ storage: fileStorageEngineAvatar });
 
+router.post("/document1", upload.single("document1"), (req, res) => {
+  res.send(req.file);
+});
+router.post("/document2", upload.single("document2"), (req, res) => {
+  res.send(req.file);
+});
+router.post("/document3", upload.single("document3"), (req, res) => {
+  res.send(req.file);
+});
 router.post("/document4", upload.single("document4"), (req, res) => {
   res.send(req.file);
 });

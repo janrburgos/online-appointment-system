@@ -44,11 +44,16 @@ const LoginPage = ({ role }) => {
     history.push("/main");
   };
 
+  const reviewerLoginSuccess = (result) => {
+    localStorage.setItem("application", null);
+    history.push("/reviewer/main");
+  };
+
   const loginHandler = () => {
     if (role === "applicant") {
       loginValidation(role, applicantLoginSuccess);
     } else {
-      history.push("/reviewer/main");
+      loginValidation(role, reviewerLoginSuccess);
     }
   };
 
@@ -96,12 +101,14 @@ const LoginPage = ({ role }) => {
           Show/Hide password
         </small>
       </div>
-      <p className="register-message">
-        Don't have an account?
-        <Link to="/register">
-          <span> Register here</span>
-        </Link>
-      </p>
+      {role === "applicant" && (
+        <p className="register-message">
+          Don't have an account?
+          <Link to="/register">
+            <span> Register here</span>
+          </Link>
+        </p>
+      )}
     </div>
   );
 };

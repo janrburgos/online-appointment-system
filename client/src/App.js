@@ -7,6 +7,7 @@ import ReviewerMainPage from "./Pages/ReviewerMainPage/ReviewerMainPage";
 import { Route, Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import ApplicationDetailTab from "./Components/ApplicationDetailTab/ApplicationDetailTab";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -18,19 +19,22 @@ const App = () => {
   return (
     <div className="App">
       <Switch>
+        {/* Applicant */}
         <Route
           exact
           path="/"
           render={(props) => <LoginPage {...props} role={"applicant"} />}
         />
         <Route path="/main" component={MainPage} />
+        <Route path="/register" component={RegistrationPage} />
+        {/* Reviewer */}
         <Route
           exact
           path="/reviewer"
           render={(props) => <LoginPage {...props} role={"reviewer"} />}
         />
         <Route path="/reviewer/main" component={ReviewerMainPage} />
-        <Route path="/register" component={RegistrationPage} />
+        <Route path="/reviewer/applications" component={ApplicationDetailTab} />
       </Switch>
     </div>
   );
