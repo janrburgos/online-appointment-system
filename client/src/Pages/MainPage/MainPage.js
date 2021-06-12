@@ -175,7 +175,12 @@ const MainPage = () => {
               path="/main/applications/:_id"
               component={ApplicationDetailTab}
             />
-            <Route path="/main/applications" component={ApplicationsTab} />
+            <Route
+              path="/main/applications"
+              render={(props) => (
+                <ApplicationsTab {...props} role={"applicant"} />
+              )}
+            />
             <Route path="/main/documents" component={DocumentsTab} />
             <Route path="/main" component={ProfileTab} />
           </Switch>

@@ -23,6 +23,17 @@ const ApplicationDetailTab = () => {
         setApplication(res.data);
       });
   };
+
+  const sendApplicationClickHandler = () => {
+    axios
+      .put(`http://localhost:1337/api/applications/${application._id}`, {
+        transactionStatus: "pending",
+        transactionStatusUpdated: Date.now(),
+      })
+      .then((res) => {
+        setApplication(res.data);
+      });
+  };
   return (
     <section className="ApplicationDetailTab">
       <div className="application-detail-top">
@@ -156,6 +167,17 @@ const ApplicationDetailTab = () => {
             </Route>
           ))}
         </div>
+      </div>
+      <div className="send-application">
+        <button onClick={sendApplicationClickHandler}>Send Application</button>
+        {application.transactionStatus !== "pending" ||
+          (application.transactionStatus !== "-" && (
+            <span>Application sent!</span>
+          ))}
+      </div>
+      <div className="application-remarks">
+        <p className="inner-header">remarks</p>
+        <p className="remarks">{application.remarks}</p>
       </div>
     </section>
   );

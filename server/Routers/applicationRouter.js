@@ -2,8 +2,14 @@ const express = require("express");
 const router = express.Router();
 const Application = require("../Models/Application");
 
-router.get("/:string", (req, res) => {
-  Application.find({ applicantId: req.params.string }).then((data) => {
+router.get("/:_id", (req, res) => {
+  Application.find({ applicantId: req.params._id }).then((data) => {
+    res.send(data);
+  });
+});
+
+router.get("/review/:status", (req, res) => {
+  Application.find({ transactionStatus: req.params.status }).then((data) => {
     res.send(data);
   });
 });

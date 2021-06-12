@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 
-const LoginPage = () => {
+const LoginPage = ({ role }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
@@ -14,7 +14,7 @@ const LoginPage = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
-  const loginHandler = () => {
+  const loginValidation = (role, success) => {
     setLoginError("");
     if (email.trim() === "") {
       emailRef.current.focus();
@@ -24,7 +24,7 @@ const LoginPage = () => {
       passwordRef.current.focus();
       return setLoginError("Enter a password");
     }
-    axios(`http://localhost:1337/api/applicants/${email}`).then((res) => {
+    axios(`http://localhost:1337/api/${role}s/${email}`).then((res) => {
       if (res.data[0] === undefined) {
         emailRef.current.focus();
         return setLoginError("This email address is not registered");
@@ -32,12 +32,24 @@ const LoginPage = () => {
         passwordRef.current.focus();
         return setLoginError("This password is incorrect");
       } else {
-        dispatch({ type: "INSERT_APPLICANT_INFO", payload: res.data[0] });
-        localStorage.setItem("applicantInfo", JSON.stringify(res.data[0]));
-        localStorage.setItem("highlightedNav", "profile");
-        history.push("/main");
+        success(res.data[0]);
       }
     });
+  };
+
+  const applicantLoginSuccess = (result) => {
+    dispatch({ type: "INSERT_APPLICANT_INFO", payload: result });
+    localStorage.setItem("applicantInfo", JSON.stringify(result));
+    localStorage.setItem("highlightedNav", "profile");
+    history.push("/main");
+  };
+
+  const loginHandler = () => {
+    if (role === "applicant") {
+      loginValidation(role, applicantLoginSuccess);
+    } else {
+      history.push("/reviewer/main");
+    }
   };
 
   return (

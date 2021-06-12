@@ -10,8 +10,14 @@
   grid-template-columns: repeat(2, 1fr);
 }
 
-.application-detail-bottom {
+.application-detail-bottom,
+.send-application,
+.application-remarks {
   margin-top: 20px;
+}
+
+.application-detail-bottom,
+.application-remarks {
   border: 1px solid var(--primary-color);
 }
 
@@ -38,6 +44,19 @@
 .document-photo-container img {
   width: 100%;
   margin: auto 0;
+}
+
+.send-application span {
+  margin-left: 10px;
+}
+
+.application-remarks {
+  min-height: 200px;
+  padding: 10px;
+}
+
+.application-remarks .remarks {
+  margin-top: 10px;
 }
 
 @media only screen and (min-width: 576px) {

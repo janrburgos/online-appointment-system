@@ -13,12 +13,16 @@ const ApplicationItem = (props) => {
       <div className="application-card">
         <div className="application-buttons">
           <Link
-            to={{
-              pathname: `/main/applications/${application._id}/0`,
-              state: {
-                ...application,
-              },
-            }}
+            to={
+              props.role === "applicant"
+                ? {
+                    pathname: `/main/applications/${application._id}/0`,
+                    state: {
+                      ...application,
+                    },
+                  }
+                : { pathname: `/reviewer/applications/${application._id}/0` }
+            }
             onClick={() => localStorage.setItem("selectedDocumentIndex", 0)}
           >
             <button>view details</button>
