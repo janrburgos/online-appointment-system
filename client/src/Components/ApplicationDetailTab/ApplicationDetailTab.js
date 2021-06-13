@@ -90,7 +90,7 @@ const ApplicationDetailTab = () => {
         <div className="applicant-main-top">
           <div className="avatar-container">
             <img
-              src={`http://localhost:1337/Avatars/default-avatar.png`}
+              src={`http://localhost:1337/Avatars/${applicantInfo.avatar}`}
               alt={"avatar"}
             />
           </div>

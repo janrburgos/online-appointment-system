@@ -24,7 +24,10 @@ const DocumentsTab = () => {
       <p className="inner-header">documents tab</p>
       <div className="documents-grid">
         {documents.map((document) => (
-          <div className="document-box">
+          <div
+            key={`documents-grid-${document.documentUrl}`}
+            className="document-box"
+          >
             <p>{document.docType}</p>
             <img
               src={`http://localhost:1337/Uploads/${document.documentUrl}`}
