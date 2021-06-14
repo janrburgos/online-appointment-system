@@ -14,11 +14,11 @@ const MainPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const avatarHandler = useRef(null);
-  const [highlightedNav, setHighlightedNav] = useState(
-    localStorage.getItem("highlightedNav")
-  );
   const [applicantInfo, setApplicantInfo] = useState(
     useSelector((state) => state.applicantInfoReducer.applicantInfo)
+  );
+  const highlightedNav = useSelector(
+    (state) => state.highlightedNavReducer.highlightedNav
   );
 
   if (localStorage.getItem("applicantInfo") === null) {
@@ -104,7 +104,7 @@ const MainPage = () => {
             <Link
               to="/main"
               onClick={() => {
-                setHighlightedNav("profile");
+                dispatch({ type: "EDIT_HIGHLIGHTED_NAV", payload: "profile" });
                 localStorage.setItem("highlightedNav", "profile");
               }}
             >
@@ -126,7 +126,10 @@ const MainPage = () => {
             <Link
               to="/main/documents"
               onClick={() => {
-                setHighlightedNav("documents");
+                dispatch({
+                  type: "EDIT_HIGHLIGHTED_NAV",
+                  payload: "documents",
+                });
                 localStorage.setItem("highlightedNav", "documents");
               }}
             >
@@ -148,7 +151,10 @@ const MainPage = () => {
             <Link
               to="/main/applications"
               onClick={() => {
-                setHighlightedNav("applications");
+                dispatch({
+                  type: "EDIT_HIGHLIGHTED_NAV",
+                  payload: "applications",
+                });
                 localStorage.setItem("highlightedNav", "applications");
               }}
             >

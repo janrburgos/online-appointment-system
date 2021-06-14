@@ -1,3 +1,18 @@
+.reviewer-back-button {
+  text-align: right;
+  padding: 10px;
+}
+
+.reviewer-back-button button,
+.reviewer-status-button button {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.ReviewerDetailTab .applicant-main-top {
+  margin-bottom: 10px;
+}
+
 .application-detail-top,
 .application-detail-bottom {
   display: grid;
@@ -97,6 +112,10 @@
 @media only screen and (min-width: 576px) {
   .ReviewerDetailTab {
     padding: 20px;
+  }
+
+  .reviewer-back-button {
+    padding: 0 0 10px 10px;
   }
 
   .application-detail-top {

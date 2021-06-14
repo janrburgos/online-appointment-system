@@ -96,7 +96,11 @@ const ApplicationItem = (props) => {
               </tr>
               <tr>
                 <td>Transaction Date:</td>
-                <td>{moment(application.transactionDate).format("lll")}</td>
+                <td>
+                  {moment(application.transactionDate).format(
+                    "MMMM Do YYYY, h:mm:ss A"
+                  )}
+                </td>
               </tr>
               <tr>
                 <td>Transaction Status:</td>
@@ -122,7 +126,13 @@ const ApplicationItem = (props) => {
               <tr>
                 <td>Appointment Date:</td>
                 <td>
-                  <b>{application.appointmentDate}</b>
+                  <b>
+                    {application.appointmentDate === "-"
+                      ? "-"
+                      : moment(application.appointmentDate).format(
+                          "MMMM Do YYYY"
+                        )}
+                  </b>
                 </td>
               </tr>
             </tbody>

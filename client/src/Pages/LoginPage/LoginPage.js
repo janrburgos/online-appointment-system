@@ -39,6 +39,7 @@ const LoginPage = ({ role }) => {
 
   const applicantLoginSuccess = (result) => {
     dispatch({ type: "INSERT_APPLICANT_INFO", payload: result });
+    dispatch({ type: "EDIT_HIGHLIGHTED_NAV", payload: "profile" });
     localStorage.setItem("applicantInfo", JSON.stringify(result));
     localStorage.setItem("highlightedNav", "profile");
     history.push("/main");

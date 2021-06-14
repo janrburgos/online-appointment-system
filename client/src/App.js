@@ -16,6 +16,11 @@ const App = () => {
     dispatch({ type: "INSERT_DOCTYPES", payload: res.data })
   );
 
+  dispatch({
+    type: "EDIT_HIGHLIGHTED_NAV",
+    payload: localStorage.getItem("highlightedNav"),
+  });
+
   return (
     <div className="App">
       <Switch>

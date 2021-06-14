@@ -3,11 +3,6 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 
 const SetAppointmentDate = (props) => {
-  // console.log(moment("20210601").day());
-  // console.log(moment().date() + 1);
-  // console.log(moment(`${moment().format("YYYY")}0101`).day());
-  console.log(moment(`20210601`).day());
-
   const months = [
     "january",
     "february",
@@ -31,19 +26,21 @@ const SetAppointmentDate = (props) => {
   const [days, setDays] = useState([]);
   const [year, setYear] = useState(moment().year());
   const [month, setMonth] = useState(months[moment().month()]);
+  const [displayMonths, setDisplayMonths] = useState([]);
   const [day, setDay] = useState(moment().date());
 
   const setAppointmentButtonClickHandler = () => {
     let mm = months.indexOf(month) + 1;
+    let dd = day < 10 ? `0${day}` : day;
     mm = mm < 10 ? `0${mm}` : mm;
-    props.setAppointmentDateHandler(`${year}${mm}${day}`);
+    props.setAppointmentDateHandler(`${year}${mm}${dd}`);
   };
 
+  // filter weekends and makes sure applicant sets appointment at least two days from now
   useEffect(() => {
     const newDaysArray = (days) => {
       let array = [];
 
-      // filter weekends and makes sure applicant sets appointment at least two days from now
       for (let i = 0; i < days; i++) {
         let dayIndex = i < 9 ? `0${i + 1}` : i + 1;
         if (
@@ -84,6 +81,25 @@ const SetAppointmentDate = (props) => {
     }
   }, [month, year]);
 
+  // makes sure applicant not set appointment on previous month
+  useEffect(() => {
+    if (year === moment().year()) {
+      setDisplayMonths(months.slice(moment().month()));
+      if (months.indexOf(month) < moment().month()) {
+        setMonth(months[moment().month()]);
+      }
+    } else {
+      setDisplayMonths(months);
+    }
+  }, [year]);
+
+  // makes sure applicant not set appointment on weekends
+  useEffect(() => {
+    if (days.indexOf(day) === -1) {
+      setDay(days[0]);
+    }
+  }, [days]);
+
   return (
     <div className="SetAppointmentDate">
       <div className="date-select-group">
@@ -105,7 +121,7 @@ const SetAppointmentDate = (props) => {
           value={month}
           onChange={(e) => setMonth(e.target.value)}
         >
-          {months.map((month) => (
+          {displayMonths.map((month) => (
             <option key={`option-appointment-${month}`} value={month}>
               {month}
             </option>

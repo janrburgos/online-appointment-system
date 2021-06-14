@@ -105,10 +105,10 @@ const RegistrationPage = () => {
       gender,
       birthDate: `${year}${month}${day}`,
       civilStatus,
-      citizenship: citizenship.trim(),
-      placeOfBirth: placeOfBirth.trim(),
-      currentAddress: currentAddress.trim(),
-      permanentAddress: permanentAddress.trim(),
+      citizenship: citizenship.trim().toLowerCase(),
+      placeOfBirth: placeOfBirth.trim().toLowerCase(),
+      currentAddress: currentAddress.trim().toLowerCase(),
+      permanentAddress: permanentAddress.trim().toLowerCase(),
     };
 
     axios(`http://localhost:1337/api/applicants/${email}`).then((res) => {

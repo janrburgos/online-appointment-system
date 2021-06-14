@@ -25,6 +25,8 @@ const SetAppointment = () => {
   }
 
   const closeButtonClickHandler = () => {
+    localStorage.setItem("highlightedNav", "applications");
+    dispatch({ type: "EDIT_HIGHLIGHTED_NAV", payload: "applications" });
     history.push("/main/applications");
   };
 
@@ -45,6 +47,8 @@ const SetAppointment = () => {
         let newApplications = [...applications, res.data];
         dispatch({ type: "INSERT_APPLICATIONS", payload: newApplications });
       });
+    localStorage.setItem("highlightedNav", "applications");
+    dispatch({ type: "EDIT_HIGHLIGHTED_NAV", payload: "applications" });
     history.push("/main/applications");
   };
 

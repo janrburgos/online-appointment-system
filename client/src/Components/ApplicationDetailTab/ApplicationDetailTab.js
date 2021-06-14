@@ -1,6 +1,6 @@
 import "./ApplicationDetailTab.css";
 import SetAppointmentDate from "../SetAppointmentDate/SetAppointmentDate";
-import { Route, Link, useLocation } from "react-router-dom";
+import { Route, Link, useLocation, useHistory } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import moment from "moment";
@@ -8,8 +8,11 @@ import axios from "axios";
 
 const ApplicationDetailTab = () => {
   const location = useLocation();
+  const history = useHistory();
   const dispatch = useDispatch();
-  const [application, setApplication] = useState(location.state.application);
+  const [application, setApplication] = useState({
+    ...location.state.application,
+  });
   const [applicantInfo, setApplicantInfo] = useState({});
   const [selectedDocumentIndex, setSelectedDocumentIndex] = useState(
     Number(localStorage.getItem("selectedDocumentIndex"))
@@ -36,7 +39,7 @@ const ApplicationDetailTab = () => {
     axios
       .put(`http://localhost:1337/api/applications/${application._id}`, {
         transactionStatus: "to claim document",
-        appointmentDate: moment(pickedDate).format("MMMM DD, YYYY"),
+        appointmentDate: pickedDate,
       })
       .then((res) => {
         setApplication(res.data);
@@ -72,6 +75,10 @@ const ApplicationDetailTab = () => {
       });
   };
 
+  const backToPendingClickHandler = () => {
+    history.push("/reviewer/main");
+  };
+
   useEffect(() => {
     axios(
       `http://localhost:1337/api/applicants/id/${application.applicantId}`
@@ -87,23 +94,30 @@ const ApplicationDetailTab = () => {
       }`}
     >
       {location.state.role === "reviewer" && (
-        <div className="applicant-main-top">
-          <div className="avatar-container">
-            <img
-              src={`http://localhost:1337/Avatars/${applicantInfo.avatar}`}
-              alt={"avatar"}
-            />
+        <>
+          <div className="reviewer-back-button">
+            <button onClick={backToPendingClickHandler}>
+              Back to pending applications
+            </button>
           </div>
-          <div className="primary-info">
-            <div className="applicant-name">
-              {`${applicantInfo.firstName} ${applicantInfo.middleName} ${applicantInfo.lastName}`}{" "}
+          <div className="applicant-main-top">
+            <div className="avatar-container">
+              <img
+                src={`http://localhost:1337/Avatars/${applicantInfo.avatar}`}
+                alt={"avatar"}
+              />
             </div>
-            <div className="applicant-email">{applicantInfo.email}</div>
-            <div className="applicant-number">
-              {applicantInfo.applicantNumber}
+            <div className="primary-info">
+              <div className="applicant-name">
+                {`${applicantInfo.firstName} ${applicantInfo.middleName} ${applicantInfo.lastName}`}{" "}
+              </div>
+              <div className="applicant-email">{applicantInfo.email}</div>
+              <div className="applicant-number">
+                {applicantInfo.applicantNumber}
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
       <div className="application-detail-top">
         <table>
@@ -114,7 +128,11 @@ const ApplicationDetailTab = () => {
             </tr>
             <tr>
               <td>Transaction Date:</td>
-              <td>{moment(application.transactionDate).format("lll")}</td>
+              <td>
+                {moment(application.transactionDate).format(
+                  "MMMM Do YYYY, h:mm:ss A"
+                )}
+              </td>
             </tr>
             <tr>
               <td>Transaction Status:</td>
@@ -140,7 +158,13 @@ const ApplicationDetailTab = () => {
             <tr>
               <td>Appointment Date:</td>
               <td>
-                <b>{application.appointmentDate}</b>
+                <b>
+                  {application.appointmentDate === "-"
+                    ? "-"
+                    : moment(application.appointmentDate).format(
+                        "MMMM Do YYYY"
+                      )}
+                </b>
               </td>
             </tr>
           </tbody>
@@ -361,7 +385,7 @@ const ApplicationDetailTab = () => {
                 <div></div>
                 <div className="reviewer-status-button">
                   <button onClick={reviewerButtonClickHandler}>
-                    update application
+                    Update Application
                   </button>
                 </div>
               </div>
