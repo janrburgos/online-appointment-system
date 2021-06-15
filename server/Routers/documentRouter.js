@@ -3,9 +3,11 @@ const router = express.Router();
 const Document = require("../Models/Document");
 
 router.get("/:_id", (req, res) => {
-  Document.find({ applicantId: req.params._id }).then((data) => {
-    res.send(data);
-  });
+  Document.find({ applicantId: req.params._id })
+    .sort({ dateUploaded: -1 })
+    .then((data) => {
+      res.send(data);
+    });
 });
 
 router.post("/", (req, res) => {

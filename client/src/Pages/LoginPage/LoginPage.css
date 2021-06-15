@@ -8,7 +8,11 @@
 }
 
 .LoginPage a {
-  color: green;
+  color: navy;
+}
+
+.LoginPage a:hover {
+  text-decoration: underline;
 }
 
 .login-error {

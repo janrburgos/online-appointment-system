@@ -29,6 +29,11 @@ const ApplicationsTab = ({ role }) => {
         </>
       )}
       <div className="application-history">
+        {applications.length === 0 && (
+          <div className="empty-tab">
+            no {role === "reviewer" && "pending"} applications...
+          </div>
+        )}
         {applications.map((application) => (
           <ApplicationItem
             key={`applicationitem-${application._id}`}

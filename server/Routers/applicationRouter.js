@@ -9,9 +9,11 @@ router.get("/:_id", (req, res) => {
 });
 
 router.get("/review/:status", (req, res) => {
-  Application.find({ transactionStatus: req.params.status }).then((data) => {
-    res.send(data);
-  });
+  Application.find({ transactionStatus: req.params.status })
+    .sort({ transactionStatusUpdated: 1 })
+    .then((data) => {
+      res.send(data);
+    });
 });
 
 router.post("/", (req, res) => {

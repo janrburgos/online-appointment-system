@@ -74,13 +74,7 @@ const RegistrationPage = () => {
   let registerButtonClickHandler = () => {
     setRegistrationError("");
 
-    if (password.length < 4) {
-      return setRegistrationError("Password should have at least 4 characters");
-    } else if (mobileNumber.length > 10) {
-      return setRegistrationError(
-        "Mobile number input should not exceed 10 numbers"
-      );
-    } else if (
+    if (
       email.trim() === "" ||
       password.trim() === "" ||
       mobileNumber.trim() === "" ||
@@ -93,6 +87,12 @@ const RegistrationPage = () => {
       permanentAddress.trim() === ""
     ) {
       return setRegistrationError("Do not leave any items blank");
+    } else if (password.length < 4) {
+      return setRegistrationError("Password should have at least 4 characters");
+    } else if (mobileNumber.length !== 10) {
+      return setRegistrationError(
+        "Mobile number input must be equal to 10 numbers"
+      );
     }
 
     let registerBody = {

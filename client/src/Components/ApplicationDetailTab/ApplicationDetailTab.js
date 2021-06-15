@@ -294,6 +294,7 @@ const ApplicationDetailTab = () => {
                             applicantId: application.applicantId,
                             docType: reqr.requirementName,
                             documentUrl: res.data.filename,
+                            dateUploaded: Date.now(),
                           });
                           // edit applications collection
                           axios

@@ -104,9 +104,9 @@ const LoginPage = ({ role }) => {
       </div>
       {role === "applicant" && (
         <p className="register-message">
-          Don't have an account?
+          Don't have an account?&nbsp;
           <Link to="/register">
-            <span> Register here</span>
+            <span>Register here</span>
           </Link>
         </p>
       )}

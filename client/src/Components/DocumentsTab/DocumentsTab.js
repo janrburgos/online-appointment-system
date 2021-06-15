@@ -22,6 +22,9 @@ const DocumentsTab = () => {
   return (
     <section className="DocumentsTab">
       <p className="inner-header">documents tab</p>
+      {documents.length === 0 && (
+        <div className="empty-tab">no documents uploaded...</div>
+      )}
       <div className="documents-grid">
         {documents.map((document) => (
           <div
