@@ -1,5 +1,5 @@
 import "./RegistrationPage.css";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 
@@ -15,11 +15,15 @@ const RegistrationPage = () => {
   const [month, setMonth] = useState("01");
   const [year, setYear] = useState(new Date().getFullYear().toString());
   const [civilStatus, setCivilStatus] = useState("single");
-  const [citizenship, setCitizenship] = useState("");
+  const [citizenship, setCitizenship] = useState("Filipino");
   const [placeOfBirth, setPlaceOfBirth] = useState("");
   const [currentAddress, setCurrentAddress] = useState("");
   const [permanentAddress, setPermanentAddress] = useState("");
   const [registrationError, setRegistrationError] = useState("");
+
+  const emailInput = useRef(null);
+  const passwordInput = useRef(null);
+  const mobileInput = useRef(null);
 
   const history = useHistory();
   let currentYear = new Date().getFullYear();
@@ -87,9 +91,14 @@ const RegistrationPage = () => {
       permanentAddress.trim() === ""
     ) {
       return setRegistrationError("Do not leave any items blank");
+    } else if (email.indexOf("@") === -1 || email.indexOf(".") === -1) {
+      emailInput.current.focus();
+      return setRegistrationError("Enter a valid email address");
     } else if (password.length < 4) {
+      passwordInput.current.focus();
       return setRegistrationError("Password should have at least 4 characters");
     } else if (mobileNumber.length !== 10) {
+      mobileInput.current.focus();
       return setRegistrationError(
         "Mobile number input must be equal to 10 numbers"
       );
@@ -136,6 +145,7 @@ const RegistrationPage = () => {
               setEmail(e.target.value);
             }}
             value={email}
+            ref={emailInput}
           />
         </div>
         <div className="form-row">
@@ -147,6 +157,7 @@ const RegistrationPage = () => {
               setPassword(e.target.value);
             }}
             value={password}
+            ref={passwordInput}
           />
         </div>
         <div className="form-row">
@@ -156,7 +167,7 @@ const RegistrationPage = () => {
             id="reg-mobile-number"
             onChange={(e) => setMobileNumber(e.target.value)}
             value={mobileNumber}
-            maxLength={10}
+            ref={mobileInput}
           />
         </div>
         <div className="form-row">
