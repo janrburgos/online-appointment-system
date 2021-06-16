@@ -47,6 +47,22 @@ const ApplicationDetailTab = () => {
         updateApplicationsClickHandler();
         alert("Apointment date has been set");
       });
+    // add the new document to documents collection
+    axios.post("http://localhost:1337/api/documents", {
+      applicantId: application.applicantId,
+      docType: application.transactionDocument,
+      documentUrl: "pdf-logo.svg",
+      dateUploaded: Date.now(),
+    });
+    // create the document the applicant applied for
+    axios.post("http://localhost:1337/api/createdoc", {
+      folderName: moment(Date.now()).format("YYYY-MM-DD"),
+      fileName: `${applicantInfo.applicantNumber}-${
+        application.transactionDocument
+      }-${Date.now()}`,
+      documentName: application.transactionDocument,
+      applicantInfo,
+    });
   };
 
   const sendApplicationClickHandler = () => {
@@ -62,16 +78,44 @@ const ApplicationDetailTab = () => {
       });
   };
 
-  const reviewerButtonClickHandler = () => {
+  const cancelApplicationClickHandler = () => {
     axios
       .put(`http://localhost:1337/api/applications/${application._id}`, {
-        transactionStatus: reviewerTransactionStatus,
-        paymentStatus: reviewerPaymentStatus,
-        remarks: reviewerRemarks,
+        transactionStatus: "-",
+        transactionStatusUpdated: Date.now(),
       })
       .then((res) => {
         setApplication(res.data);
-        alert("Application reviewed");
+        updateApplicationsClickHandler();
+        alert("Application has been cancelled");
+      });
+  };
+
+  const reviewerButtonClickHandler = () => {
+    let currentApplicationStatus;
+    axios(
+      `http://localhost:1337/api/applications/application-id/${application._id}`
+    )
+      .then((res) => {
+        currentApplicationStatus = res.data[0].transactionStatus;
+      })
+      .then((res) => {
+        if (currentApplicationStatus === "pending") {
+          axios
+            .put(`http://localhost:1337/api/applications/${application._id}`, {
+              transactionStatus: reviewerTransactionStatus,
+              paymentStatus: reviewerPaymentStatus,
+              remarks: reviewerRemarks,
+            })
+            .then((res) => {
+              setApplication(res.data);
+              alert("Application reviewed");
+              history.push("/reviewer/main");
+            });
+        } else {
+          alert("Applicant cancelled the application");
+          history.push("/reviewer/main");
+        }
       });
   };
 
@@ -326,9 +370,17 @@ const ApplicationDetailTab = () => {
       </div>
       {location.state.role === "applicant" && (
         <div className="send-application">
-          <button onClick={sendApplicationClickHandler}>
-            Send Application
-          </button>
+          {(application.transactionStatus === "-" ||
+            application.transactionStatus === "to resubmit requirements") && (
+            <button onClick={sendApplicationClickHandler}>
+              Send Application
+            </button>
+          )}
+          {application.transactionStatus === "pending" && (
+            <button onClick={cancelApplicationClickHandler}>
+              Cancel Application
+            </button>
+          )}
           {application.transactionStatus !== "pending" ||
             (application.transactionStatus !== "-" && (
               <span>Application sent!</span>

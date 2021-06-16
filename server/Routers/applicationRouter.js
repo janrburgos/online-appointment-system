@@ -3,9 +3,11 @@ const router = express.Router();
 const Application = require("../Models/Application");
 
 router.get("/:_id", (req, res) => {
-  Application.find({ applicantId: req.params._id }).then((data) => {
-    res.send(data);
-  });
+  Application.find({ applicantId: req.params._id })
+    .sort({ transactionDate: -1 })
+    .then((data) => {
+      res.send(data);
+    });
 });
 
 router.get("/review/:status", (req, res) => {
@@ -14,6 +16,12 @@ router.get("/review/:status", (req, res) => {
     .then((data) => {
       res.send(data);
     });
+});
+
+router.get("/application-id/:_id", (req, res) => {
+  Application.find({ _id: req.params._id }).then((data) => {
+    res.send(data);
+  });
 });
 
 router.post("/", (req, res) => {

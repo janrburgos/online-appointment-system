@@ -10,6 +10,7 @@ const applicationRouter = require("./Routers/applicationRouter");
 const documentRouter = require("./Routers/documentRouter");
 const doctypeRouter = require("./Routers/doctypeRouter");
 const uploadRouter = require("./Middlewares/uploadRouter");
+const createDocRouter = require("./Middlewares/createDocRouter");
 
 mongoose.connect("mongodb://localhost:27017/appointmentapp", {
   useNewUrlParser: true,
@@ -28,3 +29,4 @@ app.use("/api/applications", applicationRouter);
 app.use("/api/documents", documentRouter);
 app.use("/api/doctypes", doctypeRouter);
 app.use("/api/upload", uploadRouter);
+app.use("/api/createdoc", createDocRouter);
