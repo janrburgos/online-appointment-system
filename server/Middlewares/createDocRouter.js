@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const fs = require("fs");
-const pdfkit = require("pdfkit");
-const pdf = new pdfkit();
+const { jsPDF } = require("jspdf");
+const doc = new jsPDF();
 
 router.post("/", (req, res) => {
-  // create folder and pdf file
   fs.mkdir(`public/Created Documents/${req.body.folderName}`, (err) => {
     if (err) {
       console.log(`directory ${req.body.folderName} already exists`);
@@ -14,18 +13,15 @@ router.post("/", (req, res) => {
     }
   });
 
-  pdf.pipe(
-    fs.createWriteStream(
-      `public/Created Documents/${req.body.folderName}/${req.body.fileName}.pdf`
-    )
+  doc.text(
+    `This is ${req.body.documentName} of ${req.body.applicantInfo.firstName} ${req.body.applicantInfo.lastName}`,
+    10,
+    10
   );
-  pdf
-    .text(
-      `this is ${req.body.documentName} of ${req.body.applicantInfo.firstName} ${req.body.applicantInfo.lastName}`
-    )
-    .fontSize(25);
-  pdf.end();
-  res.send("hello");
+  doc.save(
+    `public/Created Documents/${req.body.folderName}/${req.body.fileName}.pdf`
+  );
+  res.end();
 });
 
 module.exports = router;
