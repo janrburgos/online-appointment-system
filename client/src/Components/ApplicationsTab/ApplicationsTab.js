@@ -13,7 +13,10 @@ const ApplicationsTab = ({ role }) => {
   );
 
   const reviewerLogoutClickHandler = () => {
-    localStorage.setItem("pendingApplications", null);
+    localStorage.removeItem("pendingApplications");
+    localStorage.removeItem("selectedDocumentIndex");
+    localStorage.removeItem("application");
+    localStorage.removeItem("applicantInfo");
     history.push("/reviewer");
   };
 
@@ -33,10 +36,11 @@ const ApplicationsTab = ({ role }) => {
         </>
       )}
       <div className="application-history">
-        {applications.length === 0 && (
-          <div className="empty-tab">
-            no {role === "reviewer" && "pending"} applications...
-          </div>
+        {applications.length === 0 && role === "applicant" && (
+          <div className="empty-tab">no applications...</div>
+        )}
+        {pendingApplications.length === 0 && role === "reviewer" && (
+          <div className="empty-tab">no pending applications...</div>
         )}
         {role === "applicant"
           ? applications.map((application) => (

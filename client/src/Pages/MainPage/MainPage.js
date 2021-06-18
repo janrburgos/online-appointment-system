@@ -4,60 +4,31 @@ import DocumentsTab from "../../Components/DocumentsTab/DocumentsTab";
 import ApplicationsTab from "../../Components/ApplicationsTab/ApplicationsTab";
 import ApplicationDetailTab from "../../Components/ApplicationDetailTab/ApplicationDetailTab";
 import SetAppointment from "../../Components/SetAppointment/SetAppointment";
+import ApplicantTop from "../../Components/ApplicantTop/ApplicantTop";
 
 import { Route, Link, Switch, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import React, { useRef } from "react";
-import axios from "axios";
 
 const MainPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const avatarHandler = useRef(null);
-  const applicantInfo = useSelector(
-    (state) => state.applicantInfoReducer.applicantInfo
-  );
   const highlightedNav = useSelector(
     (state) => state.highlightedNavReducer.highlightedNav
   );
 
-  const setAppointmentButtonClickHandler = () => {
-    history.push("/main/set-appointment");
-  };
-
-  const changeAvatarInputHandler = () => {
-    let file = avatarHandler.current.files[0];
-    let param = new FormData();
-    param.append(`avatar`, file, file.name);
-    param.append("chunk", "0");
-    let config = {
-      headers: { "Content-Type": "multipart/form-data" },
-    };
-    axios
-      .post(`http://localhost:1337/api/upload/avatar`, param, config)
-      .then((res) => {
-        axios
-          .put(`http://localhost:1337/api/applicants/${applicantInfo._id}`, {
-            avatar: res.data.filename,
-          })
-          .then((res) => {
-            dispatch({
-              type: "INSERT_APPLICANT_INFO",
-              payload: res.data,
-            });
-            localStorage.setItem("applicantInfo", JSON.stringify(res.data));
-          });
-      });
-  };
+  if (localStorage.getItem("applicantInfo") === null) {
+    history.push("/");
+  }
 
   const logoutButtonClickHandler = () => {
-    localStorage.setItem("doctypes", "");
-    localStorage.setItem("highlightedNav", "");
-    localStorage.setItem("applicantInfo", "");
-    localStorage.setItem("application", "");
-    localStorage.setItem("applications", "");
-    localStorage.setItem("documents", "");
-    localStorage.setItem("pendingApplications", "");
+    localStorage.removeItem("doctypes");
+    localStorage.removeItem("highlightedNav");
+    localStorage.removeItem("applicantInfo");
+    localStorage.removeItem("application");
+    localStorage.removeItem("applications");
+    localStorage.removeItem("documents");
+    localStorage.removeItem("pendingApplications");
+    localStorage.removeItem("selectedDocumentIndex");
     history.push("/");
   };
 
@@ -67,42 +38,7 @@ const MainPage = () => {
         <button onClick={logoutButtonClickHandler}>logout</button>
       </header>
       <main>
-        <div className="applicant-main">
-          <div className="applicant-main-top">
-            <div className="avatar-container">
-              <img
-                src={`http://localhost:1337/Avatars/${applicantInfo.avatar}`}
-                alt="avatar"
-              />
-            </div>
-            <div className="primary-info">
-              <div className="applicant-name">
-                {`${applicantInfo.firstName} ${applicantInfo.middleName} ${applicantInfo.lastName}`}
-              </div>
-              <div className="applicant-email">{applicantInfo.email}</div>
-              <div className="applicant-number">
-                {applicantInfo.applicantNumber}
-              </div>
-            </div>
-          </div>
-          <div className="applicant-main-bottom">
-            <button
-              className="appointment-button"
-              onClick={setAppointmentButtonClickHandler}
-            >
-              set appointment
-            </button>
-            <label className="change-avatar-label">
-              <input
-                type="file"
-                className="change-avatar-button"
-                ref={avatarHandler}
-                onInput={changeAvatarInputHandler}
-              />
-              change avatar
-            </label>
-          </div>
-        </div>
+        <ApplicantTop />
         <nav className="applicant-nav">
           <ul>
             <Link

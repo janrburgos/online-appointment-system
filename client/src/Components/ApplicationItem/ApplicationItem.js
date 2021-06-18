@@ -1,16 +1,26 @@
 import "./ApplicationItem.css";
 import React, { useState, useRef } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 
 const ApplicationItem = (props) => {
-  const [application, setApplication] = useState(props.application);
+  const dispatch = useDispatch();
   let receiptHandler = useRef(null);
+  const [application, setApplication] = useState(props.application);
 
   const applicationDetailsClickHandler = () => {
     localStorage.setItem("selectedDocumentIndex", 0);
     localStorage.setItem("application", JSON.stringify(application));
+    if (props.role === "reviewer") {
+      axios(
+        `http://localhost:1337/api/applicants/id/${props.application.applicantId}`
+      ).then((res) => {
+        dispatch({ type: "INSERT_APPLICANT_INFO", payload: res.data[0] });
+        localStorage.setItem("applicantInfo", JSON.stringify(res.data[0]));
+      });
+    }
   };
 
   return (

@@ -69,13 +69,14 @@ const LoginPage = ({ role }) => {
   };
 
   const reviewerLoginSuccess = (result) => {
-    axios(`http://localhost:1337/api/applications/review/pending`).then(
-      (res) => {
+    axios(`http://localhost:1337/api/applications/review/pending`)
+      .then((res) => {
         dispatch({ type: "INSERT_PENDING_APPLICATIONS", payload: res.data });
         localStorage.setItem("pendingApplications", JSON.stringify(res.data));
+      })
+      .then(() => {
         history.push("/reviewer/main");
-      }
-    );
+      });
   };
 
   const loginHandler = () => {

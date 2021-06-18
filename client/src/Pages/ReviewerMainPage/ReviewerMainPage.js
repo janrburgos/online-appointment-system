@@ -1,14 +1,23 @@
 import "./ReviewerMainPage.css";
 import ApplicationsTab from "../../Components/ApplicationsTab/ApplicationsTab";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 const ReviewerMainPage = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  axios(`http://localhost:1337/api/applications/review/pending`).then((res) =>
-    dispatch({ type: "INSERT_APPLICATIONS", payload: res.data })
-  );
+  if (localStorage.getItem("pendingApplications") === null) {
+    history.push("/reviewer");
+  } else {
+    axios(`http://localhost:1337/api/applications/review/pending`).then(
+      (res) => {
+        dispatch({ type: "INSERT_PENDING_APPLICATIONS", payload: res.data });
+        localStorage.setItem("pendingApplications", JSON.stringify(res.data));
+      }
+    );
+  }
 
   return (
     <div className="ReviewerMainPage">
