@@ -1,8 +1,8 @@
 import "./ApplicationDetailTab.css";
 import SetAppointmentDate from "../SetAppointmentDate/SetAppointmentDate";
 import { Route, Link, useLocation, useHistory } from "react-router-dom";
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import axios from "axios";
 
@@ -13,7 +13,9 @@ const ApplicationDetailTab = () => {
   const [application, setApplication] = useState({
     ...location.state.application,
   });
-  const [applicantInfo, setApplicantInfo] = useState({});
+  const applicantInfo = useSelector(
+    (state) => state.applicantInfoReducer.applicantInfo
+  );
   const [selectedDocumentIndex, setSelectedDocumentIndex] = useState(
     Number(localStorage.getItem("selectedDocumentIndex"))
   );
@@ -24,10 +26,6 @@ const ApplicationDetailTab = () => {
   );
   const [reviewerRemarks, setReviewerRemarks] = useState("-");
   const fileHandler = useRef(null);
-
-  if (application === undefined) {
-    setApplication(JSON.parse(localStorage.getItem("application")));
-  }
 
   const updateApplicationsClickHandler = () => {
     axios(`http://localhost:1337/api/applications/${applicantInfo._id}`).then(
@@ -123,14 +121,6 @@ const ApplicationDetailTab = () => {
     history.push("/reviewer/main");
   };
 
-  useEffect(() => {
-    axios(
-      `http://localhost:1337/api/applicants/id/${application.applicantId}`
-    ).then((res) => {
-      setApplicantInfo({ ...res.data[0] });
-    });
-  }, [application]);
-
   return (
     <section
       className={`ApplicationDetailTab ${
@@ -153,7 +143,7 @@ const ApplicationDetailTab = () => {
             </div>
             <div className="primary-info">
               <div className="applicant-name">
-                {`${applicantInfo.firstName} ${applicantInfo.middleName} ${applicantInfo.lastName}`}{" "}
+                {`${applicantInfo.firstName} ${applicantInfo.middleName} ${applicantInfo.lastName}`}
               </div>
               <div className="applicant-email">{applicantInfo.email}</div>
               <div className="applicant-number">
@@ -191,7 +181,7 @@ const ApplicationDetailTab = () => {
           <tbody>
             <tr>
               <td>Amount:</td>
-              <td>{application.amount}.00</td>
+              <td>php {application.amount}.00</td>
             </tr>
             <tr>
               <td>Payment Status:</td>
@@ -226,23 +216,17 @@ const ApplicationDetailTab = () => {
             {application.transactionRequirements.map((reqr, index) => (
               <li key={`requirement-list-li-${index}-${reqr.requirementName}`}>
                 <Link
-                  to={
-                    location.state.role === "applicant"
-                      ? {
-                          pathname: `/main/applications/${application._id}/${index}`,
-                          state: {
-                            application,
-                            role: location.state.role,
-                          },
-                        }
-                      : {
-                          pathname: `/reviewer/applications/${application._id}/${index}`,
-                          state: {
-                            application,
-                            role: location.state.role,
-                          },
-                        }
-                  }
+                  to={{
+                    pathname: `${
+                      location.state.role === "applicant"
+                        ? `/main/applications/${application._id}/${index}`
+                        : `/reviewer/applications/${application._id}/${index}`
+                    }`,
+                    state: {
+                      application,
+                      role: location.state.role,
+                    },
+                  }}
                   onClick={() => {
                     setSelectedDocumentIndex(index);
                     localStorage.setItem("selectedDocumentIndex", index);

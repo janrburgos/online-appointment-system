@@ -4,6 +4,7 @@ import applicationsReducer from "./Reducers/applicationsReducer";
 import pendingApplicationsReducer from "./Reducers/pendingApplicationsReducer";
 import doctypesReducer from "./Reducers/doctypesReducer";
 import highlightedNavReducer from "./Reducers/highlightedNavReducer";
+import documentsReducer from "./Reducers/documentsReducer";
 
 const store = createStore(
   combineReducers({
@@ -12,6 +13,7 @@ const store = createStore(
     pendingApplicationsReducer,
     doctypesReducer,
     highlightedNavReducer,
+    documentsReducer,
   })
 );
 

@@ -24,6 +24,7 @@ const LoginPage = ({ role }) => {
       passwordRef.current.focus();
       return setLoginError("Enter a password");
     }
+    // get applicant's information
     axios(`http://localhost:1337/api/${role}s/${email}`).then((res) => {
       if (res.data[0] === undefined) {
         emailRef.current.focus();
@@ -32,22 +33,49 @@ const LoginPage = ({ role }) => {
         passwordRef.current.focus();
         return setLoginError("This password is incorrect");
       } else {
+        // goes to applicant or reviewer login success function
         success(res.data[0]);
       }
     });
   };
 
-  const applicantLoginSuccess = (result) => {
-    dispatch({ type: "INSERT_APPLICANT_INFO", payload: result });
+  const applicantLoginSuccess = (applicantInfo) => {
+    // get all doctypes and save to redux
+    axios(`http://localhost:1337/api/doctypes`).then((res) => {
+      dispatch({ type: "INSERT_DOCTYPES", payload: res.data });
+      localStorage.setItem("doctypes", JSON.stringify(res.data));
+    });
+    // get all applicant's applications and save to redux
+    axios(`http://localhost:1337/api/applications/${applicantInfo._id}`).then(
+      (res) => {
+        dispatch({ type: "INSERT_APPLICATIONS", payload: res.data });
+        localStorage.setItem("applications", JSON.stringify(res.data));
+      }
+    );
+    // get all applicant's documents and save to redux
+    axios(`http://localhost:1337/api/documents/${applicantInfo._id}`).then(
+      (res) => {
+        dispatch({ type: "INSERT_DOCUMENTS", payload: res.data });
+        localStorage.setItem("documents", JSON.stringify(res.data));
+      }
+    );
+    // saves applicant's information to redux
+    dispatch({ type: "INSERT_APPLICANT_INFO", payload: applicantInfo });
+    localStorage.setItem("applicantInfo", JSON.stringify(applicantInfo));
+    //
     dispatch({ type: "EDIT_HIGHLIGHTED_NAV", payload: "profile" });
-    localStorage.setItem("applicantInfo", JSON.stringify(result));
     localStorage.setItem("highlightedNav", "profile");
     history.push("/main");
   };
 
   const reviewerLoginSuccess = (result) => {
-    localStorage.setItem("application", null);
-    history.push("/reviewer/main");
+    axios(`http://localhost:1337/api/applications/review/pending`).then(
+      (res) => {
+        dispatch({ type: "INSERT_PENDING_APPLICATIONS", payload: res.data });
+        localStorage.setItem("pendingApplications", JSON.stringify(res.data));
+        history.push("/reviewer/main");
+      }
+    );
   };
 
   const loginHandler = () => {

@@ -6,23 +6,19 @@ import axios from "axios";
 
 const SetAppointment = () => {
   const dispatch = useDispatch();
-  const [applicantInfo, setApplicantInfo] = useState(
-    useSelector((state) => state.applicantInfoReducer.applicantInfo)
+  const history = useHistory();
+  const applicantInfo = useSelector(
+    (state) => state.applicantInfoReducer.applicantInfo
   );
   const applications = useSelector(
     (state) => state.applicationsReducer.applications
   );
   const doctypes = useSelector((state) => state.doctypesReducer.doctypes);
-  const history = useHistory();
   const applyDocuments = doctypes.slice(0, 3);
   const [selectedDocument, setSelectedDocument] = useState({
     requirements: [],
   });
   const [selectedDocumentName, setSelectedDocumentName] = useState("");
-
-  if (applicantInfo._id === undefined) {
-    setApplicantInfo(JSON.parse(localStorage.getItem("applicantInfo")));
-  }
 
   const closeButtonClickHandler = () => {
     localStorage.setItem("highlightedNav", "applications");

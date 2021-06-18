@@ -1,23 +1,8 @@
 import "./DocumentTab.css";
-import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import axios from "axios";
 
 const DocumentsTab = () => {
-  const [documents, setDocuments] = useState([]);
-  const [applicantInfo, setApplicantInfo] = useState(
-    useSelector((state) => state.applicantInfoReducer.applicantInfo)
-  );
-
-  if (applicantInfo._id === undefined) {
-    setApplicantInfo(JSON.parse(localStorage.getItem("applicantInfo")));
-  }
-
-  useEffect(() => {
-    axios(`http://localhost:1337/api/documents/${applicantInfo._id}`).then(
-      (res) => setDocuments(res.data)
-    );
-  }, [applicantInfo]);
+  const documents = useSelector((state) => state.documentsReducer.documents);
 
   return (
     <section className="DocumentsTab">

@@ -8,32 +8,28 @@ const ApplicationItem = (props) => {
   const [application, setApplication] = useState(props.application);
   let receiptHandler = useRef(null);
 
+  const applicationDetailsClickHandler = () => {
+    localStorage.setItem("selectedDocumentIndex", 0);
+    localStorage.setItem("application", JSON.stringify(application));
+  };
+
   return (
     <div className="ApplicationItem">
       <div className="application-card">
         <div className="application-buttons">
           <Link
-            to={
-              props.role === "applicant"
-                ? {
-                    pathname: `/main/applications/${application._id}/0`,
-                    state: {
-                      application,
-                      role: props.role,
-                    },
-                  }
-                : {
-                    pathname: `/reviewer/applications/${application._id}/0`,
-                    state: {
-                      application,
-                      role: props.role,
-                    },
-                  }
-            }
-            onClick={() => {
-              localStorage.setItem("selectedDocumentIndex", 0);
-              localStorage.setItem("application", JSON.stringify(application));
+            to={{
+              pathname: `${
+                props.role === "applicant"
+                  ? `/main/applications/${application._id}/0`
+                  : `/reviewer/applications/${application._id}/0`
+              }`,
+              state: {
+                application,
+                role: props.role,
+              },
             }}
+            onClick={applicationDetailsClickHandler}
           >
             <button>view details</button>
           </Link>
@@ -115,7 +111,7 @@ const ApplicationItem = (props) => {
             <tbody>
               <tr>
                 <td>Amount:</td>
-                <td>{application.amount}.00</td>
+                <td>php {application.amount}.00</td>
               </tr>
               <tr>
                 <td>Payment Status:</td>

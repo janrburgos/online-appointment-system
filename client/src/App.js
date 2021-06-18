@@ -4,22 +4,57 @@ import RegistrationPage from "./Pages/RegistrationPage/RegistrationPage";
 import MainPage from "./Pages/MainPage/MainPage";
 import ReviewerMainPage from "./Pages/ReviewerMainPage/ReviewerMainPage";
 
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import axios from "axios";
 import ApplicationDetailTab from "./Components/ApplicationDetailTab/ApplicationDetailTab";
 
 const App = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  axios(`http://localhost:1337/api/doctypes`).then((res) =>
-    dispatch({ type: "INSERT_DOCTYPES", payload: res.data })
-  );
+  if (localStorage.getItem("doctypes") !== "") {
+    dispatch({
+      type: "INSERT_DOCTYPES",
+      payload: JSON.parse(localStorage.getItem("doctypes")),
+    });
+  }
 
-  dispatch({
-    type: "EDIT_HIGHLIGHTED_NAV",
-    payload: localStorage.getItem("highlightedNav"),
-  });
+  if (localStorage.getItem("highlightedNav") !== "") {
+    dispatch({
+      type: "EDIT_HIGHLIGHTED_NAV",
+      payload: localStorage.getItem("highlightedNav"),
+    });
+  }
+
+  if (localStorage.getItem("applications") !== "") {
+    dispatch({
+      type: "INSERT_APPLICATIONS",
+      payload: JSON.parse(localStorage.getItem("applications")),
+    });
+  }
+
+  if (localStorage.getItem("documents") !== "") {
+    dispatch({
+      type: "INSERT_DOCUMENTS",
+      payload: JSON.parse(localStorage.getItem("documents")),
+    });
+  }
+
+  if (localStorage.getItem("applicantInfo") !== "") {
+    dispatch({
+      type: "INSERT_APPLICANT_INFO",
+      payload: JSON.parse(localStorage.getItem("applicantInfo")),
+    });
+  } else {
+    history.push("/");
+  }
+
+  if (localStorage.getItem("pendingApplications") !== "") {
+    dispatch({
+      type: "INSERT_PENDING_APPLICATIONS",
+      payload: JSON.parse(localStorage.getItem("pendingApplications")),
+    });
+  }
 
   return (
     <div className="App">

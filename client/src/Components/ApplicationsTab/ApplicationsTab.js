@@ -8,8 +8,12 @@ const ApplicationsTab = ({ role }) => {
   const applications = useSelector(
     (state) => state.applicationsReducer.applications
   );
+  const pendingApplications = useSelector(
+    (state) => state.pendingApplicationsReducer.pendingApplications
+  );
 
-  const reviewerLoginClickHandler = () => {
+  const reviewerLogoutClickHandler = () => {
+    localStorage.setItem("pendingApplications", null);
     history.push("/reviewer");
   };
 
@@ -21,7 +25,7 @@ const ApplicationsTab = ({ role }) => {
         <>
           <button
             className="reviewer-logout"
-            onClick={reviewerLoginClickHandler}
+            onClick={reviewerLogoutClickHandler}
           >
             Logout
           </button>
@@ -34,13 +38,21 @@ const ApplicationsTab = ({ role }) => {
             no {role === "reviewer" && "pending"} applications...
           </div>
         )}
-        {applications.map((application) => (
-          <ApplicationItem
-            key={`applicationitem-${application._id}`}
-            application={application}
-            role={role}
-          />
-        ))}
+        {role === "applicant"
+          ? applications.map((application) => (
+              <ApplicationItem
+                key={`applicationitem-${application._id}`}
+                application={application}
+                role={role}
+              />
+            ))
+          : pendingApplications.map((application) => (
+              <ApplicationItem
+                key={`applicationitem-${application._id}`}
+                application={application}
+                role={role}
+              />
+            ))}
       </div>
     </section>
   );

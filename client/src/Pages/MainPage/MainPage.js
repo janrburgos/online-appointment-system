@@ -7,28 +7,18 @@ import SetAppointment from "../../Components/SetAppointment/SetAppointment";
 
 import { Route, Link, Switch, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import axios from "axios";
 
 const MainPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const avatarHandler = useRef(null);
-  const [applicantInfo, setApplicantInfo] = useState(
-    useSelector((state) => state.applicantInfoReducer.applicantInfo)
+  const applicantInfo = useSelector(
+    (state) => state.applicantInfoReducer.applicantInfo
   );
   const highlightedNav = useSelector(
     (state) => state.highlightedNavReducer.highlightedNav
-  );
-
-  if (localStorage.getItem("applicantInfo") === null) {
-    history.push("/");
-  } else if (applicantInfo._id === undefined) {
-    setApplicantInfo(JSON.parse(localStorage.getItem("applicantInfo")));
-  }
-
-  axios(`http://localhost:1337/api/applications/${applicantInfo._id}`).then(
-    (res) => dispatch({ type: "INSERT_APPLICATIONS", payload: res.data })
   );
 
   const setAppointmentButtonClickHandler = () => {
@@ -51,16 +41,30 @@ const MainPage = () => {
             avatar: res.data.filename,
           })
           .then((res) => {
-            setApplicantInfo(res.data);
+            dispatch({
+              type: "INSERT_APPLICANT_INFO",
+              payload: res.data,
+            });
             localStorage.setItem("applicantInfo", JSON.stringify(res.data));
           });
       });
   };
 
+  const logoutButtonClickHandler = () => {
+    localStorage.setItem("doctypes", "");
+    localStorage.setItem("highlightedNav", "");
+    localStorage.setItem("applicantInfo", "");
+    localStorage.setItem("application", "");
+    localStorage.setItem("applications", "");
+    localStorage.setItem("documents", "");
+    localStorage.setItem("pendingApplications", "");
+    history.push("/");
+  };
+
   return (
     <div className="MainPage">
       <header>
-        <button onClick={() => history.push("/")}>logout</button>
+        <button onClick={logoutButtonClickHandler}>logout</button>
       </header>
       <main>
         <div className="applicant-main">
@@ -183,9 +187,7 @@ const MainPage = () => {
             />
             <Route
               path="/main/applications"
-              render={(props) => (
-                <ApplicationsTab {...props} role={"applicant"} />
-              )}
+              render={() => <ApplicationsTab role={"applicant"} />}
             />
             <Route path="/main/documents" component={DocumentsTab} />
             <Route path="/main" component={ProfileTab} />
