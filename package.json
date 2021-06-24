@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index",
-    "server-dev": "cd server && nodemon server",
+    "start": "node server/server",
+    "server-dev": "nodemon server/server",
     "client": "cd client && npm start",
-    "dev": "concurrently -n \"server,client\" -c \"blue,green\" \"npm run server-dev\" \"npm run client\""
+    "dev": "concurrently -n \"server,client,files\" -c \"blue,green\" \"npm run server-dev\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -25,6 +24,7 @@
     "axios": "^0.21.1",
     "concurrently": "^6.2.0",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jspdf": "^2.3.1",
     "mongoose": "^5.12.12",

@@ -1,9 +1,10 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cors = require("cors");
 const app = express();
-const PORT = 1337;
+const PORT = process.env.PORT || 1337;
 const applicantRouter = require("./Routers/applicantRouter");
 const reviewerRouter = require("./Routers/reviewerRouter");
 const applicationRouter = require("./Routers/applicationRouter");
@@ -12,10 +13,13 @@ const doctypeRouter = require("./Routers/doctypeRouter");
 const uploadRouter = require("./Middlewares/uploadRouter");
 const createDocRouter = require("./Middlewares/createDocRouter");
 
-mongoose.connect("mongodb://localhost:27017/appointmentapp", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  process.env.MONGO_URI || "mongodb://localhost:27017/appointmentapp",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 app.listen(PORT, console.log(`server is listening to port ${PORT}`));
 
