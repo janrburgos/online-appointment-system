@@ -1,10 +1,12 @@
-require("dotenv").config();
+require("dotenv").config({
+  path: "../.env",
+});
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cors = require("cors");
 const app = express();
-const PORT = process.env.PORT || 1337;
+const PORT = 1337;
 const applicantRouter = require("./Routers/applicantRouter");
 const reviewerRouter = require("./Routers/reviewerRouter");
 const applicationRouter = require("./Routers/applicationRouter");
@@ -14,7 +16,8 @@ const uploadRouter = require("./Middlewares/uploadRouter");
 const createDocRouter = require("./Middlewares/createDocRouter");
 
 mongoose.connect(
-  process.env.MONGO_URI || "mongodb://localhost:27017/appointmentapp",
+  process.env.MONGO_URI,
+  //"mongodb://localhost:27017/appointmentapp",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
