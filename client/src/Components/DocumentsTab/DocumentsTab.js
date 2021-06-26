@@ -17,10 +17,7 @@ const DocumentsTab = () => {
             className="document-box"
           >
             <p>{document.docType}</p>
-            <img
-              src={`http://localhost:1337/Uploads/${document.documentUrl}`}
-              alt="document"
-            />
+            <img src={document.documentUrl} alt="document" />
           </div>
         ))}
       </div>

@@ -16,7 +16,11 @@ const ApplicantSchema = new Schema({
   placeOfBirth: { type: String, required: true },
   currentAddress: { type: String, required: true },
   permanentAddress: { type: String, required: true },
-  avatar: { type: String, default: "default-avatar.png" },
+  avatar: {
+    type: String,
+    default:
+      "https://res.cloudinary.com/janrcloud/image/upload/v1624670305/online-appointment-system/Avatars/default-avatar.png",
+  },
 });
 
 module.exports = mongoose.model("Applicant", ApplicantSchema);

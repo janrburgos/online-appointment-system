@@ -23,6 +23,28 @@ const ApplicationItem = (props) => {
     }
   };
 
+  const uploadReceiptInputHandler = (applicationId) => {
+    const file = receiptHandler.current.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      axios
+        .post(`http://localhost:1337/api/upload/receipt`, {
+          data: reader.result,
+        })
+        .then((res) => {
+          axios
+            .put(`http://localhost:1337/api/applications/${applicationId}`, {
+              paymentReceiptUrl: res.data,
+              paymentStatus: "pending",
+            })
+            .then((res) => {
+              setApplication(res.data);
+            });
+        });
+    };
+  };
+
   return (
     <div className="ApplicationItem">
       <div className="application-card">
@@ -51,34 +73,7 @@ const ApplicationItem = (props) => {
                   id="payment-receipt"
                   accept="image/*"
                   ref={receiptHandler}
-                  onInput={() => {
-                    let receipt = receiptHandler.current.files[0];
-                    let param = new FormData();
-                    param.append("receipt", receipt, receipt.name);
-                    param.append("chunk", "0");
-                    let config = {
-                      headers: { "Content-Type": "multipart/form-data" },
-                    };
-                    axios
-                      .post(
-                        "http://localhost:1337/api/upload/receipt",
-                        param,
-                        config
-                      )
-                      .then((res) => {
-                        axios
-                          .put(
-                            `http://localhost:1337/api/applications/${application._id}`,
-                            {
-                              paymentReceiptUrl: res.data.filename,
-                              paymentStatus: "pending",
-                            }
-                          )
-                          .then((res) => {
-                            setApplication(res.data);
-                          });
-                      });
-                  }}
+                  onInput={() => uploadReceiptInputHandler(application._id)}
                 />
               )}
               {application.paymentStatus === "-" ||

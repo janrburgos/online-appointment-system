@@ -29,8 +29,46 @@ const ApplicationDetailTab = () => {
 
   const updateApplicationsClickHandler = () => {
     axios(`http://localhost:1337/api/applications/${applicantInfo._id}`).then(
-      (res) => dispatch({ type: "INSERT_APPLICATIONS", payload: res.data })
+      (res) => {
+        dispatch({ type: "INSERT_APPLICATIONS", payload: res.data });
+        localStorage.setItem("applications", JSON.stringify(res.data));
+      }
     );
+  };
+
+  const uploadDocumentClickHandler = (reqr, index) => {
+    const file = fileHandler.current.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      axios
+        .post(`http://localhost:1337/api/upload/document`, {
+          data: reader.result,
+        })
+        .then((res) => {
+          let transactionsToEdit = [...application.transactionRequirements];
+          transactionsToEdit[index] = {
+            requirementName: reqr.requirementName,
+            requirementUrl: res.data,
+            requirementStatus: "pending",
+          };
+          // add to documents collection
+          axios.post("http://localhost:1337/api/documents", {
+            applicantId: application.applicantId,
+            docType: reqr.requirementName,
+            documentUrl: res.data,
+            dateUploaded: Date.now(),
+          });
+          // edit applications collection
+          axios
+            .put(`http://localhost:1337/api/applications/${application._id}`, {
+              transactionRequirements: transactionsToEdit,
+            })
+            .then((res) => {
+              setApplication(res.data);
+            });
+        });
+    };
   };
 
   const setAppointmentDateHandler = (pickedDate) => {
@@ -49,7 +87,8 @@ const ApplicationDetailTab = () => {
     axios.post("http://localhost:1337/api/documents", {
       applicantId: application.applicantId,
       docType: application.transactionDocument,
-      documentUrl: "pdf-logo.svg",
+      documentUrl:
+        "https://res.cloudinary.com/janrcloud/image/upload/v1624704185/online-appointment-system/Uploads/pdf-logo.svg",
       dateUploaded: Date.now(),
     });
     // create the document the applicant applied for
@@ -136,10 +175,7 @@ const ApplicationDetailTab = () => {
           </div>
           <div className="applicant-main-top">
             <div className="avatar-container">
-              <img
-                src={`http://localhost:1337/Avatars/${applicantInfo.avatar}`}
-                alt={"avatar"}
-              />
+              <img src={applicantInfo.avatar} alt={"avatar"} />
             </div>
             <div className="primary-info">
               <div className="applicant-name">
@@ -294,61 +330,15 @@ const ApplicationDetailTab = () => {
                     id="avatar"
                     ref={fileHandler}
                     accept="image/*"
-                    onInput={() => {
-                      let file = fileHandler.current.files[0];
-                      let param = new FormData();
-                      param.append(`${reqr.requirementName}`, file, file.name);
-                      param.append("chunk", "0");
-                      let config = {
-                        headers: { "Content-Type": "multipart/form-data" },
-                      };
-                      axios
-                        .post(
-                          `http://localhost:1337/api/upload/${reqr.requirementName}`,
-                          param,
-                          config
-                        )
-                        .then((res) => {
-                          let transactionsToEdit = [
-                            ...application.transactionRequirements,
-                          ];
-                          transactionsToEdit[index] = {
-                            requirementName: reqr.requirementName,
-                            requirementUrl: res.data.filename,
-                            requirementStatus: "pending",
-                          };
-                          // add to documents collection
-                          axios.post("http://localhost:1337/api/documents", {
-                            applicantId: application.applicantId,
-                            docType: reqr.requirementName,
-                            documentUrl: res.data.filename,
-                            dateUploaded: Date.now(),
-                          });
-                          // edit applications collection
-                          axios
-                            .put(
-                              `http://localhost:1337/api/applications/${application._id}`,
-                              { transactionRequirements: transactionsToEdit }
-                            )
-                            .then((res) => {
-                              setApplication(res.data);
-                            });
-                        });
-                    }}
+                    onInput={() => uploadDocumentClickHandler(reqr, index)}
                   />
                 </div>
               )}
-              <img
-                src={`http://localhost:1337/Uploads/${reqr.requirementUrl}`}
-                alt="document"
-              />
+              <img src={reqr.requirementUrl} alt="document" />
             </Route>
           ))}
           <Route path={`/reviewer/applications/${application._id}/receipt`}>
-            <img
-              src={`http://localhost:1337/Receipts/${application.paymentReceiptUrl}`}
-              alt="receipt"
-            />
+            <img src={application.paymentReceiptUrl} alt="receipt" />
           </Route>
         </div>
       </div>

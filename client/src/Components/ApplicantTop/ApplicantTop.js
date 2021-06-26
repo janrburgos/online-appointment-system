@@ -17,38 +17,36 @@ const ApplicantTop = () => {
   };
 
   const changeAvatarInputHandler = () => {
-    let file = avatarHandler.current.files[0];
-    let param = new FormData();
-    param.append(`avatar`, file, file.name);
-    param.append("chunk", "0");
-    let config = {
-      headers: { "Content-Type": "multipart/form-data" },
-    };
-    axios
-      .post(`http://localhost:1337/api/upload/avatar`, param, config)
-      .then((res) => {
-        axios
-          .put(`http://localhost:1337/api/applicants/${applicantInfo._id}`, {
-            avatar: res.data.filename,
-          })
-          .then((res) => {
-            dispatch({
-              type: "INSERT_APPLICANT_INFO",
-              payload: res.data,
+    const file = avatarHandler.current.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      console.log(reader.result);
+      axios
+        .post(`http://localhost:1337/api/upload/avatar`, {
+          data: reader.result,
+        })
+        .then((res) => {
+          axios
+            .put(`http://localhost:1337/api/applicants/${applicantInfo._id}`, {
+              avatar: res.data,
+            })
+            .then((res) => {
+              dispatch({
+                type: "INSERT_APPLICANT_INFO",
+                payload: res.data,
+              });
+              localStorage.setItem("applicantInfo", JSON.stringify(res.data));
             });
-            localStorage.setItem("applicantInfo", JSON.stringify(res.data));
-          });
-      });
+        });
+    };
   };
 
   return (
     <div className="ApplicantTop">
       <div className="applicant-main-top">
         <div className="avatar-container">
-          <img
-            src={`http://localhost:1337/Avatars/${applicantInfo.avatar}`}
-            alt="avatar"
-          />
+          <img src={applicantInfo.avatar} alt="avatar" />
         </div>
         <div className="primary-info">
           <div className="applicant-name">
@@ -71,6 +69,7 @@ const ApplicantTop = () => {
           <input
             type="file"
             className="change-avatar-button"
+            accept="image/*"
             ref={avatarHandler}
             onInput={changeAvatarInputHandler}
           />

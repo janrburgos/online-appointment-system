@@ -10,7 +10,8 @@ const ApplicationSchema = new Schema({
       requirementName: String,
       requirementUrl: {
         type: String,
-        default: "no-document.png",
+        default:
+          "https://res.cloudinary.com/janrcloud/image/upload/v1624670245/online-appointment-system/Uploads/no-document.png",
       },
       requirementStatus: { type: String, default: "-" },
     },
