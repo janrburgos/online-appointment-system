@@ -15,7 +15,7 @@ const ApplicationItem = (props) => {
     localStorage.setItem("application", JSON.stringify(application));
     if (props.role === "reviewer") {
       axios(
-        `http://localhost:1337/api/applicants/id/${props.application.applicantId}`
+        `https://online-appointment-system-be.herokuapp.com/api/applicants/id/${props.application.applicantId}`
       ).then((res) => {
         dispatch({ type: "INSERT_APPLICANT_INFO", payload: res.data[0] });
         localStorage.setItem("applicantInfo", JSON.stringify(res.data[0]));
@@ -29,15 +29,21 @@ const ApplicationItem = (props) => {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       axios
-        .post(`http://localhost:1337/api/upload/receipt`, {
-          data: reader.result,
-        })
+        .post(
+          `https://online-appointment-system-be.herokuapp.com/api/upload/receipt`,
+          {
+            data: reader.result,
+          }
+        )
         .then((res) => {
           axios
-            .put(`http://localhost:1337/api/applications/${applicationId}`, {
-              paymentReceiptUrl: res.data,
-              paymentStatus: "pending",
-            })
+            .put(
+              `https://online-appointment-system-be.herokuapp.com/api/applications/${applicationId}`,
+              {
+                paymentReceiptUrl: res.data,
+                paymentStatus: "pending",
+              }
+            )
             .then((res) => {
               setApplication(res.data);
             });

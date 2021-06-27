@@ -120,14 +120,19 @@ const RegistrationPage = () => {
       permanentAddress: permanentAddress.trim().toLowerCase(),
     };
 
-    axios(`http://localhost:1337/api/applicants/${email}`).then((res) => {
+    axios(
+      `https://online-appointment-system-be.herokuapp.com/api/applicants/${email}`
+    ).then((res) => {
       if (res.data[0] !== undefined) {
         return setRegistrationError(
           "The email address you provided is already registered"
         );
       }
       axios
-        .post("http://localhost:1337/api/applicants", registerBody)
+        .post(
+          "https://online-appointment-system-be.herokuapp.com/api/applicants",
+          registerBody
+        )
         .then(alert(`added ${firstName} ${lastName} to the database`));
       history.push("/");
     });

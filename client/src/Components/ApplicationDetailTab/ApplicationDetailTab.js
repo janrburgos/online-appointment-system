@@ -28,12 +28,12 @@ const ApplicationDetailTab = () => {
   const fileHandler = useRef(null);
 
   const updateApplicationsClickHandler = () => {
-    axios(`http://localhost:1337/api/applications/${applicantInfo._id}`).then(
-      (res) => {
-        dispatch({ type: "INSERT_APPLICATIONS", payload: res.data });
-        localStorage.setItem("applications", JSON.stringify(res.data));
-      }
-    );
+    axios(
+      `https://online-appointment-system-be.herokuapp.com/api/applications/${applicantInfo._id}`
+    ).then((res) => {
+      dispatch({ type: "INSERT_APPLICATIONS", payload: res.data });
+      localStorage.setItem("applications", JSON.stringify(res.data));
+    });
   };
 
   const uploadDocumentClickHandler = (reqr, index) => {
@@ -42,9 +42,12 @@ const ApplicationDetailTab = () => {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       axios
-        .post(`http://localhost:1337/api/upload/document`, {
-          data: reader.result,
-        })
+        .post(
+          `https://online-appointment-system-be.herokuapp.com/api/upload/document`,
+          {
+            data: reader.result,
+          }
+        )
         .then((res) => {
           let transactionsToEdit = [...application.transactionRequirements];
           transactionsToEdit[index] = {
@@ -53,17 +56,23 @@ const ApplicationDetailTab = () => {
             requirementStatus: "pending",
           };
           // add to documents collection
-          axios.post("http://localhost:1337/api/documents", {
-            applicantId: application.applicantId,
-            docType: reqr.requirementName,
-            documentUrl: res.data,
-            dateUploaded: Date.now(),
-          });
+          axios.post(
+            "https://online-appointment-system-be.herokuapp.com/api/documents",
+            {
+              applicantId: application.applicantId,
+              docType: reqr.requirementName,
+              documentUrl: res.data,
+              dateUploaded: Date.now(),
+            }
+          );
           // edit applications collection
           axios
-            .put(`http://localhost:1337/api/applications/${application._id}`, {
-              transactionRequirements: transactionsToEdit,
-            })
+            .put(
+              `https://online-appointment-system-be.herokuapp.com/api/applications/${application._id}`,
+              {
+                transactionRequirements: transactionsToEdit,
+              }
+            )
             .then((res) => {
               setApplication(res.data);
             });
@@ -73,10 +82,13 @@ const ApplicationDetailTab = () => {
 
   const setAppointmentDateHandler = (pickedDate) => {
     axios
-      .put(`http://localhost:1337/api/applications/${application._id}`, {
-        transactionStatus: "to claim document",
-        appointmentDate: pickedDate,
-      })
+      .put(
+        `https://online-appointment-system-be.herokuapp.com/api/applications/${application._id}`,
+        {
+          transactionStatus: "to claim document",
+          appointmentDate: pickedDate,
+        }
+      )
       .then((res) => {
         setApplication(res.data);
         localStorage.setItem("application", JSON.stringify(res.data));
@@ -84,30 +96,39 @@ const ApplicationDetailTab = () => {
         alert("Apointment date has been set");
       });
     // add the new document to documents collection
-    axios.post("http://localhost:1337/api/documents", {
-      applicantId: application.applicantId,
-      docType: application.transactionDocument,
-      documentUrl:
-        "https://res.cloudinary.com/janrcloud/image/upload/v1624704185/online-appointment-system/Uploads/pdf-logo.svg",
-      dateUploaded: Date.now(),
-    });
+    axios.post(
+      "https://online-appointment-system-be.herokuapp.com/api/documents",
+      {
+        applicantId: application.applicantId,
+        docType: application.transactionDocument,
+        documentUrl:
+          "https://res.cloudinary.com/janrcloud/image/upload/v1624704185/online-appointment-system/Uploads/pdf-logo.svg",
+        dateUploaded: Date.now(),
+      }
+    );
     // create the document the applicant applied for
-    axios.post("http://localhost:1337/api/createdoc", {
-      folderName: moment(Date.now()).format("YYYY-MM-DD"),
-      fileName: `${applicantInfo.applicantNumber}-${
-        application.transactionDocument
-      }-${Date.now()}`,
-      documentName: application.transactionDocument,
-      applicantInfo,
-    });
+    axios.post(
+      "https://online-appointment-system-be.herokuapp.com/api/createdoc",
+      {
+        folderName: moment(Date.now()).format("YYYY-MM-DD"),
+        fileName: `${applicantInfo.applicantNumber}-${
+          application.transactionDocument
+        }-${Date.now()}`,
+        documentName: application.transactionDocument,
+        applicantInfo,
+      }
+    );
   };
 
   const sendApplicationClickHandler = () => {
     axios
-      .put(`http://localhost:1337/api/applications/${application._id}`, {
-        transactionStatus: "pending",
-        transactionStatusUpdated: Date.now(),
-      })
+      .put(
+        `https://online-appointment-system-be.herokuapp.com/api/applications/${application._id}`,
+        {
+          transactionStatus: "pending",
+          transactionStatusUpdated: Date.now(),
+        }
+      )
       .then((res) => {
         setApplication(res.data);
         updateApplicationsClickHandler();
@@ -117,10 +138,13 @@ const ApplicationDetailTab = () => {
 
   const cancelApplicationClickHandler = () => {
     axios
-      .put(`http://localhost:1337/api/applications/${application._id}`, {
-        transactionStatus: "-",
-        transactionStatusUpdated: Date.now(),
-      })
+      .put(
+        `https://online-appointment-system-be.herokuapp.com/api/applications/${application._id}`,
+        {
+          transactionStatus: "-",
+          transactionStatusUpdated: Date.now(),
+        }
+      )
       .then((res) => {
         setApplication(res.data);
         updateApplicationsClickHandler();
@@ -131,7 +155,7 @@ const ApplicationDetailTab = () => {
   const reviewerButtonClickHandler = () => {
     let currentApplicationStatus;
     axios(
-      `http://localhost:1337/api/applications/application-id/${application._id}`
+      `https://online-appointment-system-be.herokuapp.com/api/applications/application-id/${application._id}`
     )
       .then((res) => {
         currentApplicationStatus = res.data[0].transactionStatus;
@@ -139,11 +163,14 @@ const ApplicationDetailTab = () => {
       .then((res) => {
         if (currentApplicationStatus === "pending") {
           axios
-            .put(`http://localhost:1337/api/applications/${application._id}`, {
-              transactionStatus: reviewerTransactionStatus,
-              paymentStatus: reviewerPaymentStatus,
-              remarks: reviewerRemarks,
-            })
+            .put(
+              `https://online-appointment-system-be.herokuapp.com/api/applications/${application._id}`,
+              {
+                transactionStatus: reviewerTransactionStatus,
+                paymentStatus: reviewerPaymentStatus,
+                remarks: reviewerRemarks,
+              }
+            )
             .then((res) => {
               setApplication(res.data);
               alert("Application reviewed");

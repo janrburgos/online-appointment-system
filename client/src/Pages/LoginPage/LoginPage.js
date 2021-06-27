@@ -25,7 +25,9 @@ const LoginPage = ({ role }) => {
       return setLoginError("Enter a password");
     }
     // get applicant's information
-    axios(`http://localhost:1337/api/${role}s/${email}`).then((res) => {
+    axios(
+      `https://online-appointment-system-be.herokuapp.com/api/${role}s/${email}`
+    ).then((res) => {
       if (res.data[0] === undefined) {
         emailRef.current.focus();
         return setLoginError("This email address is not registered");
@@ -41,24 +43,26 @@ const LoginPage = ({ role }) => {
 
   const applicantLoginSuccess = (applicantInfo) => {
     // get all doctypes and save to redux
-    axios(`http://localhost:1337/api/doctypes`).then((res) => {
+    axios(
+      `https://online-appointment-system-be.herokuapp.com/api/doctypes`
+    ).then((res) => {
       dispatch({ type: "INSERT_DOCTYPES", payload: res.data });
       localStorage.setItem("doctypes", JSON.stringify(res.data));
     });
     // get all applicant's applications and save to redux
-    axios(`http://localhost:1337/api/applications/${applicantInfo._id}`).then(
-      (res) => {
-        dispatch({ type: "INSERT_APPLICATIONS", payload: res.data });
-        localStorage.setItem("applications", JSON.stringify(res.data));
-      }
-    );
+    axios(
+      `https://online-appointment-system-be.herokuapp.com/api/applications/${applicantInfo._id}`
+    ).then((res) => {
+      dispatch({ type: "INSERT_APPLICATIONS", payload: res.data });
+      localStorage.setItem("applications", JSON.stringify(res.data));
+    });
     // get all applicant's documents and save to redux
-    axios(`http://localhost:1337/api/documents/${applicantInfo._id}`).then(
-      (res) => {
-        dispatch({ type: "INSERT_DOCUMENTS", payload: res.data });
-        localStorage.setItem("documents", JSON.stringify(res.data));
-      }
-    );
+    axios(
+      `https://online-appointment-system-be.herokuapp.com/api/documents/${applicantInfo._id}`
+    ).then((res) => {
+      dispatch({ type: "INSERT_DOCUMENTS", payload: res.data });
+      localStorage.setItem("documents", JSON.stringify(res.data));
+    });
     // saves applicant's information to redux
     dispatch({ type: "INSERT_APPLICANT_INFO", payload: applicantInfo });
     localStorage.setItem("applicantInfo", JSON.stringify(applicantInfo));
@@ -69,7 +73,9 @@ const LoginPage = ({ role }) => {
   };
 
   const reviewerLoginSuccess = (result) => {
-    axios(`http://localhost:1337/api/applications/review/pending`)
+    axios(
+      `https://online-appointment-system-be.herokuapp.com/api/applications/review/pending`
+    )
       .then((res) => {
         dispatch({ type: "INSERT_PENDING_APPLICATIONS", payload: res.data });
         localStorage.setItem("pendingApplications", JSON.stringify(res.data));

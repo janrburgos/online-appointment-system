@@ -23,14 +23,20 @@ const ApplicantTop = () => {
     reader.onloadend = () => {
       console.log(reader.result);
       axios
-        .post(`http://localhost:1337/api/upload/avatar`, {
-          data: reader.result,
-        })
+        .post(
+          `https://online-appointment-system-be.herokuapp.com/api/upload/avatar`,
+          {
+            data: reader.result,
+          }
+        )
         .then((res) => {
           axios
-            .put(`http://localhost:1337/api/applicants/${applicantInfo._id}`, {
-              avatar: res.data,
-            })
+            .put(
+              `https://online-appointment-system-be.herokuapp.com/api/applicants/${applicantInfo._id}`,
+              {
+                avatar: res.data,
+              }
+            )
             .then((res) => {
               dispatch({
                 type: "INSERT_APPLICANT_INFO",

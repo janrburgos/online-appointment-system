@@ -32,12 +32,15 @@ const SetAppointment = () => {
       }),
     ];
     axios
-      .post("http://localhost:1337/api/applications", {
-        applicantId: applicantInfo._id,
-        transactionDocument: selectedDocument.name,
-        amount: selectedDocument.amount,
-        transactionRequirements,
-      })
+      .post(
+        "https://online-appointment-system-be.herokuapp.com/api/applications",
+        {
+          applicantId: applicantInfo._id,
+          transactionDocument: selectedDocument.name,
+          amount: selectedDocument.amount,
+          transactionRequirements,
+        }
+      )
       .then((res) => {
         let newApplications = [...applications, res.data];
         dispatch({ type: "INSERT_APPLICATIONS", payload: newApplications });

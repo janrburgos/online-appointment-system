@@ -11,12 +11,12 @@ const ReviewerMainPage = () => {
   if (localStorage.getItem("pendingApplications") === null) {
     history.push("/reviewer");
   } else {
-    axios(`http://localhost:1337/api/applications/review/pending`).then(
-      (res) => {
-        dispatch({ type: "INSERT_PENDING_APPLICATIONS", payload: res.data });
-        localStorage.setItem("pendingApplications", JSON.stringify(res.data));
-      }
-    );
+    axios(
+      `https://online-appointment-system-be.herokuapp.com/api/applications/review/pending`
+    ).then((res) => {
+      dispatch({ type: "INSERT_PENDING_APPLICATIONS", payload: res.data });
+      localStorage.setItem("pendingApplications", JSON.stringify(res.data));
+    });
   }
 
   return (
