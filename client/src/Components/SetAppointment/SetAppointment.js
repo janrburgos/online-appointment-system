@@ -14,7 +14,6 @@ const SetAppointment = () => {
     (state) => state.applicationsReducer.applications
   );
   const doctypes = useSelector((state) => state.doctypesReducer.doctypes);
-  const applyDocuments = doctypes.slice(0, 3);
   const [selectedDocument, setSelectedDocument] = useState({
     requirements: [],
   });
@@ -61,13 +60,13 @@ const SetAppointment = () => {
             onChange={(e) => {
               setSelectedDocumentName(e.target.value);
               setSelectedDocument(
-                applyDocuments.find((doc) => doc.name === e.target.value)
+                doctypes.find((doc) => doc.name === e.target.value)
               );
             }}
             value={selectedDocumentName}
           >
             <option hidden>---select document---</option>
-            {applyDocuments.map((doc) => (
+            {doctypes.map((doc) => (
               <option key={`selecteddocoption-${doc.name}`}>{doc.name}</option>
             ))}
           </select>
