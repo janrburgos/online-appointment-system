@@ -1,5 +1,7 @@
 --- ONLINE APPOINTMENT SYSTEM ---
 
+please see repository "online-appointment-system-client" for deployed version
+
 - enter "npm run dev" on the terminal to run both client and server.
 - login page for applicant is http://localhost:3000/
 - login page for reviewer is http://localhost:3000/reviewer
